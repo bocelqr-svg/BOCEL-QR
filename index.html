@@ -24,7 +24,7 @@
         
         .print-only { display: none; }
         
-        /* ESTRUCTURA DE TIQUE RÍGIDA PARA EVITAR DESBORDAMIENTOS */
+        /* TIQUE INDUSTRIAL BOCEL */
         .ticket-bocel {
             width: 900px;
             height: 420px;
@@ -39,13 +39,11 @@
             overflow: hidden;
         }
 
-        /* Fila Superior: Logo y Registro */
         .ticket-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             height: 90px;
-            margin-bottom: 10px;
         }
 
         .ticket-title-block {
@@ -61,14 +59,6 @@
             letter-spacing: 0.2em;
         }
 
-        .ticket-title-block p {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            opacity: 0.6;
-        }
-
-        /* Barra de Información: Línea y Fecha */
         .ticket-info-bar {
             border-top: 5px solid #000;
             border-bottom: 5px solid #000;
@@ -81,16 +71,13 @@
             text-transform: uppercase;
         }
 
-        /* Cuerpo Principal: Tandas + Categoría | Total | QR */
         .ticket-body {
             display: grid;
             grid-template-columns: 1fr 200px 180px;
-            gap: 0;
             flex: 1;
             margin-top: 5px;
         }
 
-        /* Sección Tandas y Categoría */
         .section-tandas {
             display: flex;
             flex-direction: column;
@@ -108,7 +95,7 @@
             flex-direction: column;
         }
 
-        .tanda-lbl { font-size: 10px; font-weight: 900; opacity: 0.5; margin-bottom: 2px; text-transform: uppercase; }
+        .tanda-lbl { font-size: 10px; font-weight: 900; margin-bottom: 2px; text-transform: uppercase; }
         .tanda-qty { font-size: 30px; font-weight: 900; font-style: italic; }
 
         .category-display {
@@ -117,10 +104,8 @@
             text-transform: uppercase;
             font-style: italic;
             line-height: 1;
-            margin-bottom: 10px;
         }
 
-        /* Sección Total */
         .section-total {
             border-left: 2px dashed #000;
             padding: 10px 20px;
@@ -131,11 +116,10 @@
             text-align: right;
         }
 
-        .total-lbl { font-size: 12px; font-weight: 900; color: #ff0000; margin-bottom: 5px; text-transform: uppercase; }
+        .total-lbl { font-size: 12px; font-weight: 900; color: #000; margin-bottom: 5px; text-transform: uppercase; }
         .total-val { font-size: 60px; font-weight: 900; font-style: italic; line-height: 0.8; }
         .total-unit { font-size: 30px; font-weight: 900; font-style: italic; }
 
-        /* Sección QR */
         .section-qr {
             border-left: 2px dashed #000;
             display: flex;
@@ -145,7 +129,19 @@
             padding-left: 20px;
         }
 
-        /* Footer Tique */
+        /* TEXTO VALIDACIÓN DIGITAL CORREGIDO */
+        .qr-validation-text {
+            font-size: 12px;
+            font-weight: 900;
+            text-align: center;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #000 !important;
+            display: block;
+            line-height: 1.1;
+        }
+
         .ticket-footer {
             border-top: 2px solid #000;
             padding-top: 10px;
@@ -154,7 +150,7 @@
             font-size: 9px;
             font-weight: 900;
             text-transform: uppercase;
-            opacity: 0.4;
+            opacity: 0.5;
         }
 
         #mobile-view {
@@ -186,15 +182,14 @@
             <div class="p-8 space-y-8">
                 <div>
                     <p class="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-widest">Material</p>
-                    <p id="m-material" class="text-3xl font-black italic text-white uppercase leading-tight">--</p>
-                    <p id="m-linea-view" class="text-xs font-bold text-indigo-500 mt-2">LÍNEA: --</p>
+                    <p id="m-material" class="text-3xl font-black italic text-white uppercase">--</p>
+                    <p id="m-linea-view" class="text-xs font-bold text-indigo-500 mt-2 uppercase">LÍNEA: --</p>
                 </div>
                 <div class="bg-slate-800/40 p-6 rounded-3xl border border-slate-700/50">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase mb-4 tracking-widest">Detalle Pesaje</p>
                     <div id="m-tandas-list" class="space-y-4"></div>
                 </div>
                 <div class="text-center py-8 bg-white/5 rounded-[2rem]">
-                    <p class="text-[10px] font-bold text-indigo-400 uppercase mb-1 tracking-widest">Total Paletizado</p>
+                    <p class="text-[10px] font-bold text-indigo-400 uppercase mb-1">Total Paletizado</p>
                     <p id="m-total" class="text-6xl font-black text-white italic tracking-tighter">0.00 KG</p>
                 </div>
             </div>
@@ -206,7 +201,7 @@
         </div>
     </div>
 
-    <!-- PANEL DE CONTROL -->
+    <!-- PANEL PRINCIPAL -->
     <div id="main-content" class="max-w-[1400px] mx-auto py-8 px-6 no-print">
         <header class="flex flex-col md:flex-row justify-between items-center mb-10 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
             <div class="flex items-center gap-8">
@@ -226,7 +221,6 @@
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10" id="totalsGrid"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <!-- FORMULARIO -->
             <aside class="lg:col-span-4">
                 <div class="bg-white p-8 rounded-[3rem] shadow-sm border border-slate-200 sticky top-8">
                     <form id="entryForm" class="space-y-6">
@@ -253,7 +247,7 @@
                         </div>
                         <div>
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Categoría de Material</label>
-                            <select id="tipo" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2">
+                            <select id="tipo" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2 outline-none">
                                 <option>ESP</option><option>DESPERDICIO</option><option>MASA</option><option>HARINA CONTAMINADA</option><option>REPROCESO ESP</option><option>REPROCESO CÓDITO</option><option>REPROCESO DE FIDEO</option>
                             </select>
                         </div>
@@ -262,7 +256,6 @@
                 </div>
             </aside>
 
-            <!-- HISTÓRICO -->
             <main class="lg:col-span-8">
                 <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden">
                     <div class="p-6 bg-slate-50 flex justify-between items-center border-b border-slate-100">
@@ -287,7 +280,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE TIQUE CORREGIDO -->
+    <!-- MODAL DE TIQUE -->
     <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-6 no-print">
         <div class="bg-white p-10 rounded-[4rem] max-w-6xl w-full shadow-2xl border-4 border-black">
             <div class="flex justify-between items-center mb-8">
@@ -295,12 +288,11 @@
                 <button onclick="closeModal()" class="text-4xl text-slate-300 hover:text-black transition-colors">&times;</button>
             </div>
 
-            <!-- TIQUE CON ESTRUCTURA DE GRILLA RÍGIDA -->
+            <!-- TIQUE CORREGIDO -->
             <div id="ticket-capture" class="ticket-bocel mx-auto">
-                <!-- CABECERA -->
                 <div class="ticket-header">
                     <div class="flex items-center">
-                        <img src="IMG_4612.PNG" alt="BOCEL" class="h-20 w-auto object-contain">
+                        <img src="IMG_4612.PNG" alt="BOCEL" class="h-24 w-auto object-contain">
                         <div class="ticket-title-block">
                             <h2>Trazabilidad de Planta</h2>
                             <p>Control de Pesaje Industrial</p>
@@ -312,13 +304,11 @@
                     </div>
                 </div>
 
-                <!-- INFO BAR (DENTRO DE LÍNEAS) -->
                 <div class="ticket-info-bar">
                     <div>LÍNEA: <span id="v-linea" class="text-2xl ml-2">--</span></div>
                     <div>FECHA: <span id="v-fecha" class="ml-2">--</span> | <span id="v-hora" class="ml-2">--</span></div>
                 </div>
 
-                <!-- CUERPO CON GRID PARA EVITAR COLISIONES -->
                 <div class="ticket-body">
                     <div class="section-tandas">
                         <div>
@@ -351,11 +341,10 @@
 
                     <div class="section-qr">
                         <div id="qrcode"></div>
-                        <p class="text-[10px] font-black text-center mt-4 uppercase tracking-widest leading-tight">Acceso Digital</p>
+                        <p class="qr-validation-text">Validación<br>Digital</p>
                     </div>
                 </div>
 
-                <!-- FOOTER -->
                 <div class="ticket-footer">
                     <span>Software R7 Industrial</span>
                     <span>Sello de Verificación Planta BOCEL</span>
@@ -373,7 +362,7 @@
 
     <script>
         const categories = ['ESP', 'DESPERDICIO', 'MASA', 'HARINA CONTAMINADA', 'REPROCESO ESP', 'REPROCESO CÓDITO', 'REPROCESO DE FIDEO'];
-        let db = JSON.parse(localStorage.getItem('BOCEL_MASTER_V20')) || [];
+        let db = JSON.parse(localStorage.getItem('BOCEL_MASTER_DB_FINAL')) || [];
         
         const form = document.getElementById('entryForm');
         const searchBox = document.getElementById('searchBox');
@@ -384,7 +373,7 @@
         searchDate.valueAsDate = new Date();
 
         function sync() {
-            localStorage.setItem('BOCEL_MASTER_V20', JSON.stringify(db));
+            localStorage.setItem('BOCEL_MASTER_DB_FINAL', JSON.stringify(db));
             render();
         }
 
@@ -451,7 +440,7 @@
             form.reset();
         };
 
-        function deleteRecord(id) { if(confirm("¿Eliminar registro definitivamente de la base BOCEL?")) { db = db.filter(x => x.id !== id); sync(); } }
+        function deleteRecord(id) { if(confirm("¿Eliminar registro BOCEL definitivamente?")) { db = db.filter(x => x.id !== id); sync(); } }
 
         function openModal(r) {
             document.getElementById('v-id').innerText = `#${String(r.id).padStart(3, '0')}`;
@@ -513,7 +502,7 @@
                 list.innerHTML = '';
                 d[6].split(',').forEach(t => {
                     const [n, v] = t.split(':');
-                    list.innerHTML += `<div class="flex justify-between items-center py-4 border-b border-slate-700/50 last:border-0"><span class="font-bold text-xs text-slate-400 uppercase tracking-widest">Tanda ${n}</span><span class="font-black text-lg text-white font-mono">${v} KG</span></div>`;
+                    list.innerHTML += `<div class="flex justify-between items-center py-4 border-b border-slate-700/50 last:border-0"><span class="font-bold text-xs text-slate-400">Tanda ${n}</span><span class="font-black text-lg text-white font-mono">${v} KG</span></div>`;
                 });
             } catch(e) { clearScanView(); }
         }
