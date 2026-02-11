@@ -24,7 +24,7 @@
         
         .print-only { display: none; }
         
-        /* DISEÑO FIEL A LA IMAGEN COMPARTIDA */
+        /* DISEÑO INDUSTRIAL REFORZADO */
         .ticket-bocel {
             width: 900px;
             height: 440px;
@@ -80,7 +80,7 @@
         /* Contenido del Cuerpo */
         .content-grid {
             display: grid;
-            grid-template-columns: 1fr 220px 160px;
+            grid-template-columns: 1fr 240px 160px;
             flex: 1;
             margin-top: 10px;
         }
@@ -99,21 +99,41 @@
         .tanda-item span:first-child { font-size: 9px; font-weight: 900; opacity: 0.4; text-transform: uppercase; }
         .tanda-item span:last-child { font-size: 26px; font-weight: 900; font-style: italic; }
 
-        .category-text { font-size: 28px; font-weight: 900; text-transform: uppercase; font-style: italic; }
+        .category-text { font-size: 28px; font-weight: 900; text-transform: uppercase; font-style: italic; margin-top: 10px; }
 
-        /* Columna Central: Total */
+        /* Columna Central: Total (ESPACIADO CORREGIDO) */
         .col-center {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-end;
             text-align: right;
-            padding-right: 20px;
+            padding-right: 15px;
         }
 
-        .total-label { font-size: 10px; font-weight: 900; color: #ff0000; text-transform: uppercase; margin-bottom: 2px; }
-        .total-val { font-size: 70px; font-weight: 900; font-style: italic; line-height: 0.8; }
-        .total-unit { font-size: 32px; font-weight: 900; font-style: italic; margin-top: -5px; }
+        .total-label { font-size: 11px; font-weight: 900; color: #ff0000; text-transform: uppercase; margin-bottom: 2px; }
+        
+        .total-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .total-val { 
+            font-size: 72px; 
+            font-weight: 900; 
+            font-style: italic; 
+            line-height: 1; 
+            letter-spacing: -0.02em;
+        }
+
+        .total-unit { 
+            font-size: 32px; 
+            font-weight: 900; 
+            font-style: italic; 
+            line-height: 1;
+            margin-top: 4px; /* Aumentado el espacio para que no esté pegado */
+        }
 
         /* Columna Derecha: QR */
         .col-right {
@@ -125,7 +145,15 @@
             padding-left: 20px;
         }
 
-        .qr-label { font-size: 10px; font-weight: 900; text-transform: uppercase; text-align: center; margin-top: 10px; line-height: 1.2; }
+        .qr-label { 
+            font-size: 11px; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            text-align: center; 
+            margin-top: 12px; 
+            line-height: 1.1; 
+            letter-spacing: 0.05em;
+        }
 
         /* Footer */
         .footer-line {
@@ -152,7 +180,7 @@
 </head>
 <body>
 
-    <!-- VISTA ESCANEO MÓVIL -->
+    <!-- VISTA ESCANEO MÓVIL (VISIBLE TRAS ESCANEO DE QR) -->
     <div id="mobile-view" class="flex flex-col items-center">
         <div class="w-full max-w-md bg-slate-900 rounded-[3rem] text-white shadow-2xl overflow-hidden mt-4 border border-slate-800">
             <div class="p-10 text-center border-b border-slate-800">
@@ -187,7 +215,7 @@
         </div>
     </div>
 
-    <!-- PANEL PRINCIPAL -->
+    <!-- PANEL PRINCIPAL DE GESTIÓN -->
     <div id="main-content" class="max-w-[1400px] mx-auto py-8 px-6 no-print">
         <header class="flex flex-col md:flex-row justify-between items-center mb-10 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
             <div class="flex items-center gap-8">
@@ -204,9 +232,11 @@
             </div>
         </header>
 
+        <!-- Estadísticas rápidas -->
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10" id="totalsGrid"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <!-- FORMULARIO DE REGISTRO -->
             <aside class="lg:col-span-4">
                 <div class="bg-white p-8 rounded-[3rem] shadow-sm border border-slate-200 sticky top-8">
                     <form id="entryForm" class="space-y-6">
@@ -242,6 +272,7 @@
                 </div>
             </aside>
 
+            <!-- TABLA DE HISTÓRICO -->
             <main class="lg:col-span-8">
                 <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden">
                     <div class="p-6 bg-slate-50 flex justify-between items-center border-b border-slate-100">
@@ -255,7 +286,7 @@
                         <table class="w-full text-left">
                             <thead class="bg-slate-50/80 sticky top-0 border-b border-slate-200">
                                 <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                                    <th class="px-8 py-5">ID</th><th class="px-8 py-5">Hora</th><th class="px-8 py-5">Línea</th><th class="px-8 py-5">Material</th><th class="px-8 py-5 text-right">Total</th><th class="px-8 py-5 text-center">Gestión</th>
+                                    <th class="px-8 py-5">ID</th><th class="px-8 py-5">Hora</th><th class="px-8 py-5">Línea</th><th class="px-8 py-5">Material</th><th class="px-8 py-5 text-right">Total</th><th class="px-8 py-5 text-center">Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody" class="divide-y divide-slate-100"></tbody>
@@ -266,7 +297,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE TIQUE -->
+    <!-- MODAL DEL TIQUE INDUSTRIAL -->
     <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-6 no-print">
         <div class="bg-white p-10 rounded-[4rem] max-w-6xl w-full shadow-2xl border-2 border-black">
             <div class="flex justify-between items-center mb-8">
@@ -274,7 +305,7 @@
                 <button onclick="closeModal()" class="text-4xl text-slate-300 hover:text-black transition-colors">&times;</button>
             </div>
 
-            <!-- TIQUE ACTUALIZADO SEGÚN IMAGEN -->
+            <!-- TIQUE ACTUALIZADO CON ESPACIADO CORREGIDO -->
             <div id="ticket-capture" class="ticket-bocel mx-auto">
                 <div class="header-grid">
                     <img src="IMG_4612.PNG" alt="Logo BOCEL" class="h-16 w-auto object-contain">
@@ -317,18 +348,22 @@
 
                     <div class="col-center">
                         <span class="total-label">Total Paletizado</span>
-                        <span id="v-total-val" class="total-val">0.00</span>
-                        <span class="total-unit">KG</span>
+                        <div class="total-container">
+                            <!-- El valor numérico -->
+                            <span id="v-total-val" class="total-val">0.00</span>
+                            <!-- La unidad KG con mayor espaciado superior -->
+                            <span class="total-unit">KG</span>
+                        </div>
                     </div>
 
                     <div class="col-right">
                         <div id="qrcode"></div>
-                        <p class="qr-label">Acceso Digital<br>Validación</p>
+                        <p class="qr-label">ACCESO DIGITAL<br>VALIDACIÓN</p>
                     </div>
                 </div>
 
                 <div class="footer-line">
-                    <span>Software de Gestión R7</span>
+                    <span>Software de Gestión R7 Industrial</span>
                     <span>Verificado por Planta BOCEL</span>
                 </div>
             </div>
@@ -422,7 +457,7 @@
             form.reset();
         };
 
-        function deleteRecord(id) { if(confirm("¿Eliminar registro definitivamente de la base BOCEL?")) { db = db.filter(x => x.id !== id); sync(); } }
+        function deleteRecord(id) { if(confirm("¿Eliminar registro BOCEL definitivamente?")) { db = db.filter(x => x.id !== id); sync(); } }
 
         function openModal(r) {
             document.getElementById('v-id').innerText = `#${String(r.id).padStart(3, '0')}`;
