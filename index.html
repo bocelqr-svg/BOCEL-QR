@@ -57,7 +57,6 @@
             border-left: 1px dashed #cbd5e1;
         }
 
-        /* AJUSTE DE TAMAÑO TOTAL (Pequeño y profesional) */
         .total-section {
             text-align: right;
             line-height: 1;
@@ -174,11 +173,15 @@
                         <div>
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Línea de Proceso</label>
                             <select id="linea" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2 text-slate-700 outline-none">
-                                <option>LPL01</option><option>LPL02</option><option>LFI01</option><option>LFI02</option><option>LPC02</option>
+                                <option>LPL01</option>
+                                <option>LPL02</option>
+                                <option>LFI01</option>
+                                <option>LFI02</option>
+                                <option>LPC02</option>
+                                <option>SILOS</option>
                             </select>
                         </div>
                         
-                        <!-- REGISTRO DE TANDAS ACTUALIZADO -->
                         <div class="p-6 bg-indigo-50/50 rounded-[2rem] border border-indigo-100/50 space-y-4">
                             <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Pesos Tandas (KG)</p>
                             <div class="grid grid-cols-2 gap-3">
@@ -204,7 +207,13 @@
                         <div>
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Categoría Material</label>
                             <select id="tipo" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2">
-                                <option>ESP</option><option>DESPERDICIO</option><option>MASA</option><option>HARINA</option><option>REPROCESO ESP</option><option>REPROCESO CÓDITO</option><option>REPROCESO DE FIDEO</option>
+                                <option>ESP</option>
+                                <option>DESPERDICIO</option>
+                                <option>MASA</option>
+                                <option>HARINA CONTAMINADA</option>
+                                <option>REPROCESO ESP</option>
+                                <option>REPROCESO CÓDITO</option>
+                                <option>REPROCESO DE FIDEO</option>
                             </select>
                         </div>
 
@@ -237,7 +246,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE DOCUMENTO (TIQUE) -->
+    <!-- MODAL DE DOCUMENTO -->
     <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-6 no-print">
         <div class="bg-white p-10 rounded-[4rem] max-w-5xl w-full shadow-2xl">
             <div class="flex justify-between items-center mb-10">
@@ -308,8 +317,8 @@
     <div id="printable-area" class="print-only"></div>
 
     <script>
-        const categories = ['ESP', 'DESPERDICIO', 'MASA', 'HARINA', 'REPROCESO ESP', 'REPROCESO CÓDITO', 'REPROCESO DE FIDEO'];
-        let db = JSON.parse(localStorage.getItem('BOCEL_DB_MASTER_V3')) || [];
+        const categories = ['ESP', 'DESPERDICIO', 'MASA', 'HARINA CONTAMINADA', 'REPROCESO ESP', 'REPROCESO CÓDITO', 'REPROCESO DE FIDEO'];
+        let db = JSON.parse(localStorage.getItem('BOCEL_DB_MASTER_V4')) || [];
         
         const form = document.getElementById('entryForm');
         const searchBox = document.getElementById('searchBox');
@@ -320,7 +329,7 @@
         searchDate.valueAsDate = new Date();
 
         function sync() {
-            localStorage.setItem('BOCEL_DB_MASTER_V3', JSON.stringify(db));
+            localStorage.setItem('BOCEL_DB_MASTER_V4', JSON.stringify(db));
             render();
         }
 
