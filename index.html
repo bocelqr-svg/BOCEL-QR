@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R7 - Control de Producción</title>
+    <title>BOCEL - Control de Producción</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -11,7 +11,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@700&display=swap');
         
         body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
-        .logo-r7 { font-family: 'Orbitron', sans-serif; }
+        .logo-bocel-text { font-family: 'Inter', sans-serif; font-weight: 900; letter-spacing: -0.05em; color: #2d5a5e; }
+        .r7-badge { font-family: 'Orbitron', sans-serif; font-size: 10px; color: #6366f1; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
         @media print {
@@ -24,14 +25,14 @@
         
         .print-only { display: none; }
         
-        /* TIQUE HORIZONTAL R7 */
+        /* Contenedor del Tique */
         .ticket-r7 {
-            width: 800px;
-            height: 350px;
+            width: 850px;
+            height: 380px;
             background: white;
             border: 4px solid #000;
             display: flex;
-            padding: 20px;
+            padding: 25px;
             color: #000;
             position: relative;
         }
@@ -41,133 +42,159 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding-right: 20px;
+            padding-right: 25px;
         }
 
         .ticket-qr-section {
             width: 200px;
-            border-left: 2px dashed #ccc;
+            border-left: 2px dashed #000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-left: 20px;
+            padding-left: 25px;
         }
 
         #mobile-view {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff;
+            background: #0f172a;
             z-index: 9999;
             padding: 20px;
             overflow-y: auto;
+        }
+
+        /* Estilo para la imagen del logo */
+        .img-logo {
+            object-fit: contain;
+            display: block;
         }
     </style>
 </head>
 <body>
 
-    <!-- VISTA ESCANEO MÓVIL R7 -->
+    <!-- VISTA ESCANEO MÓVIL (SÓLO CUANDO SE ESCANEA) -->
     <div id="mobile-view" class="flex flex-col items-center">
-        <div class="w-full max-w-md bg-slate-900 rounded-[2.5rem] text-white shadow-2xl overflow-hidden mt-4">
+        <div class="w-full max-w-md bg-slate-900 rounded-[2.5rem] text-white shadow-2xl overflow-hidden mt-4 border border-slate-800">
             <div class="p-8 text-center border-b border-slate-800">
-                <div class="logo-r7 text-4xl mb-2 text-indigo-500 italic">R7</div>
-                <h2 class="text-xl font-black">FICHA DIGITAL #<span id="m-id">000</span></h2>
-                <p id="m-datetime" class="text-[10px] opacity-50 mt-1">--</p>
+                <!-- Logo BOCEL Mobile -->
+                <div class="flex justify-center mb-4">
+                    <img src="IMG_4612.png" alt="BOCEL" class="img-logo h-24 w-auto" onerror="this.src='https://via.placeholder.com/150?text=BOCEL'">
+                </div>
+                <div class="r7-badge tracking-[0.3em] opacity-60">SISTEMA R7</div>
+                
+                <div class="mt-6 inline-block bg-indigo-600 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    ID Registro: #<span id="m-id">000</span>
+                </div>
+                <p id="m-datetime" class="text-[10px] opacity-50 mt-3 font-mono">--</p>
             </div>
             
             <div class="p-8 space-y-6">
-                <div>
-                    <p class="text-[10px] font-bold text-indigo-400 uppercase mb-3">Material Registrado</p>
-                    <p id="m-material" class="text-2xl font-black italic">--</p>
+                <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700">
+                    <p class="text-[10px] font-bold text-indigo-400 uppercase mb-2">Material / Categoría</p>
+                    <p id="m-material" class="text-3xl font-black italic tracking-tighter text-white">--</p>
+                    <p id="m-linea-view" class="text-xs font-bold text-slate-400 mt-1">LÍNEA: --</p>
                 </div>
 
-                <div class="bg-slate-800 p-4 rounded-2xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-3">Detalle de Tandas</p>
-                    <div id="m-tandas-list" class="space-y-2"></div>
+                <div class="bg-slate-800/80 p-6 rounded-3xl border border-slate-700">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-4">Detalle de Pesaje</p>
+                    <div id="m-tandas-list" class="space-y-3"></div>
                 </div>
                 
-                <div class="text-center py-4">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Paletizado</p>
-                    <p id="m-total" class="text-6xl font-black text-white italic">0.00 KG</p>
+                <div class="text-center py-6 bg-white/5 rounded-3xl border border-white/5">
+                    <p class="text-[10px] font-bold text-indigo-300 uppercase mb-1 tracking-widest">Peso Neto Total</p>
+                    <p id="m-total" class="text-6xl font-black text-white italic tracking-tighter">0.00 KG</p>
                 </div>
             </div>
-            <button onclick="window.location.search=''" class="m-8 mt-0 w-[calc(100%-4rem)] bg-indigo-600 py-4 rounded-2xl font-black uppercase text-xs">Finalizar Lectura</button>
+            
+            <div class="px-8 pb-8 space-y-3">
+                <button onclick="clearScanView()" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all">
+                    Cerrar Información
+                </button>
+                <div class="flex justify-center gap-2 items-center opacity-30">
+                    <span class="text-[8px] font-black uppercase tracking-tighter text-slate-400">Powered by</span>
+                    <span class="r7-badge">R7</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- PANEL PRINCIPAL R7 -->
+    <!-- PANEL PRINCIPAL BOCEL -->
     <div id="main-content" class="max-w-[1500px] mx-auto py-6 px-4 no-print">
         
-        <header class="flex justify-between items-center mb-8 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
-            <div class="flex items-center gap-4">
-                <div class="logo-r7 text-5xl font-black text-slate-900 italic tracking-tighter">R7</div>
-                <div class="h-10 w-px bg-slate-200"></div>
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 gap-4">
+            <div class="flex items-center gap-6">
+                <!-- Logo BOCEL Header -->
+                <div class="flex items-center gap-4">
+                    <img src="IMG_4612.png" alt="BOCEL" class="img-logo h-20 w-auto" onerror="this.style.display='none'">
+                    <div>
+                        <div class="r7-badge tracking-[0.2em] opacity-50">SISTEMA R7</div>
+                    </div>
+                </div>
+                
+                <div class="h-12 w-px bg-slate-200 hidden md:block"></div>
                 <div>
-                    <h1 class="text-lg font-black text-slate-800 leading-none">Control de Producción</h1>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Gestión de Trazabilidad Industrial</p>
+                    <h1 class="text-xl font-black text-slate-800 leading-none uppercase italic">Control de Producción</h1>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Planta de Procesamiento Industrial</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="text-[10px] font-black text-indigo-600 uppercase mb-1">Correlativo</p>
+            <div class="text-center md:text-right">
+                <p class="text-[10px] font-black text-indigo-600 uppercase mb-1">Correlativo Actual</p>
                 <p id="next-id-label" class="text-4xl font-black font-mono">#001</p>
             </div>
         </header>
 
-        <!-- DASHBOARD EN TIEMPO REAL -->
+        <!-- DASHBOARD RÁPIDO -->
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-8" id="totalsGrid"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- FORMULARIO R7 -->
+            <!-- FORMULARIO -->
             <aside class="lg:col-span-4">
                 <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 sticky top-6">
                     <form id="entryForm" class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase">Línea de Proceso</label>
-                                <select id="linea" class="w-full p-3 bg-slate-50 border-0 rounded-xl font-bold mt-1">
-                                    <option>LPL01</option><option>LPL02</option><option>LFI01</option><option>LFI02</option><option>LPC02</option>
-                                </select>
+                        <div>
+                            <label class="text-[10px] font-black text-slate-400 uppercase">Línea de Proceso</label>
+                            <select id="linea" class="w-full p-3 bg-slate-50 border-0 rounded-xl font-bold mt-1 text-slate-700">
+                                <option>LPL01</option><option>LPL02</option><option>LFI01</option><option>LFI02</option><option>LPC02</option>
+                            </select>
+                        </div>
+                        
+                        <div class="p-4 bg-indigo-50 rounded-2xl border border-indigo-100 space-y-3">
+                            <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest">Registro de Tandas (KG)</p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="t1_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option></select>
+                                <input type="number" id="t1_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 1">
                             </div>
-                            
-                            <!-- TANDAS -->
-                            <div class="col-span-2 p-4 bg-indigo-50 rounded-2xl border border-indigo-100 space-y-3">
-                                <p class="text-[9px] font-black text-indigo-400 uppercase">Registro de Tandas</p>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <select id="t1_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option></select>
-                                    <input type="number" id="t1_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 1">
-                                </div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <select id="t2_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option selected>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option></select>
-                                    <input type="number" id="t2_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 2">
-                                </div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <select id="t3_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option selected>C1</option><option>C2</option><option>C3</option></select>
-                                    <input type="number" id="t3_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 3">
-                                </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="t2_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option selected>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option></select>
+                                <input type="number" id="t2_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 2">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="t3_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option selected>C1</option><option>C2</option><option>C3</option></select>
+                                <input type="number" id="t3_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 3">
                             </div>
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase">Categoría de Producto</label>
-                            <select id="tipo" class="w-full p-3 bg-slate-50 border-0 rounded-xl font-bold mt-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase">Categoría de Material</label>
+                            <select id="tipo" class="w-full p-3 bg-slate-50 border-0 rounded-xl font-bold mt-1 text-slate-700">
                                 <option>ESP</option><option>DESPERDICIO</option><option>MASA</option><option>HARINA</option><option>REPROCESO ESP</option><option>REPROCESO CÓDITO</option><option>REPROCESO DE FIDEO</option>
                             </select>
                         </div>
 
-                        <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-indigo-600 transition-colors shadow-xl">Generar Tique R7</button>
+                        <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-indigo-600 transition-all shadow-xl">Generar Registro BOCEL</button>
                     </form>
                 </div>
             </aside>
 
-            <!-- BUSCADOR Y LISTADO R7 -->
+            <!-- LISTADO -->
             <main class="lg:col-span-8 space-y-6">
                 <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
                     <div class="p-4 bg-slate-50 flex flex-wrap gap-4 justify-between items-center">
                         <div class="flex gap-2">
                             <input type="date" id="searchDate" class="p-2 rounded-xl bg-white border border-slate-200 text-xs font-bold">
-                            <input type="text" id="searchBox" placeholder="Buscar por código, línea o material..." class="p-2 rounded-xl bg-white border border-slate-200 text-xs font-bold w-64">
+                            <input type="text" id="searchBox" placeholder="Buscar registros..." class="p-2 rounded-xl bg-white border border-slate-200 text-xs font-bold w-64">
                         </div>
                         <span id="recordCount" class="text-[9px] font-black bg-slate-200 px-3 py-1 rounded-full uppercase">0 Registros</span>
                     </div>
@@ -179,8 +206,8 @@
                                     <th class="px-6 py-4">Hora</th>
                                     <th class="px-6 py-4">Línea</th>
                                     <th class="px-6 py-4">Material</th>
-                                    <th class="px-6 py-4 text-right">Peso Total</th>
-                                    <th class="px-6 py-4 text-center">Gestión</th>
+                                    <th class="px-6 py-4 text-right">Total (KG)</th>
+                                    <th class="px-6 py-4 text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody" class="divide-y divide-slate-100"></tbody>
@@ -191,62 +218,72 @@
         </div>
     </div>
 
-    <!-- MODAL TIQUE HORIZONTAL R7 -->
+    <!-- MODAL TIQUE DE IMPRESIÓN BOCEL -->
     <div id="modal" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 no-print">
-        <div class="bg-white p-8 rounded-[3rem] max-w-5xl w-full">
+        <div class="bg-white p-8 rounded-[3rem] max-w-5xl w-full border border-slate-200 shadow-2xl">
             <div class="flex justify-between items-center mb-6">
-                <div class="logo-r7 text-2xl italic">R7 <span class="text-sm font-sans font-bold text-slate-300 not-italic ml-2 uppercase tracking-widest">Documento de Planta</span></div>
+                <div class="flex items-center gap-2">
+                    <div class="r7-badge opacity-50">DOCUMENTO GENERADO POR R7</div>
+                </div>
                 <button onclick="closeModal()" class="text-3xl text-slate-300 hover:text-slate-900">&times;</button>
             </div>
 
+            <!-- TIQUE CAPTURE -->
             <div id="ticket-capture" class="ticket-r7 mx-auto">
                 <div class="ticket-main">
                     <div class="flex justify-between items-start">
-                        <div>
-                            <div class="logo-r7 text-5xl font-black italic">R7</div>
-                            <p class="text-[9px] font-black uppercase tracking-[0.3em] mt-1">Control de Calidad</p>
+                        <div class="flex items-center gap-6">
+                            <!-- Logo en Tique -->
+                            <img src="IMG_4612.png" alt="BOCEL" class="img-logo h-24 w-auto">
+                            <div class="border-l-2 border-black pl-4">
+                                <p class="text-[12px] font-black uppercase tracking-[0.2em]">Planta de Producción</p>
+                                <p class="text-[9px] font-bold opacity-50">Control de Calidad y Pesaje</p>
+                            </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-[9px] font-black text-slate-400 uppercase">Identificador</p>
-                            <p id="v-id" class="text-5xl font-black font-mono">#000</p>
+                            <p class="text-[10px] font-black text-slate-400 uppercase">Registro N°</p>
+                            <p id="v-id" class="text-6xl font-black font-mono">#000</p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 my-2 text-[11px] font-bold border-y-2 border-black py-2">
-                        <p>LÍNEA: <span id="v-linea" class="font-black uppercase">--</span></p>
-                        <p class="text-right">FECHA: <span id="v-fecha" class="font-black">--</span> | <span id="v-hora" class="font-black">--</span></p>
+                    <div class="grid grid-cols-2 gap-4 my-3 text-[12px] font-bold border-y-4 border-black py-2">
+                        <p>LÍNEA: <span id="v-linea" class="font-black uppercase text-lg">--</span></p>
+                        <p class="text-right">FECHA: <span id="v-fecha" class="font-black">--</span> | HORA: <span id="v-hora" class="font-black">--</span></p>
                     </div>
 
                     <div class="flex justify-between items-center">
                         <div class="space-y-1">
-                            <p class="text-[9px] font-black uppercase text-slate-400">Desglose de Producción (KG)</p>
-                            <div class="flex gap-4">
-                                <div><span id="v-t1-n" class="text-[10px] font-black block">--</span><span id="v-t1-v" class="text-lg font-black italic">0.00</span></div>
-                                <div><span id="v-t2-n" class="text-[10px] font-black block">--</span><span id="v-t2-v" class="text-lg font-black italic">0.00</span></div>
-                                <div><span id="v-t3-n" class="text-[10px] font-black block">--</span><span id="v-t3-v" class="text-lg font-black italic">0.00</span></div>
+                            <p class="text-[9px] font-black uppercase text-slate-400 mb-1">Desglose de Pesos Netos (KG)</p>
+                            <div class="flex gap-6">
+                                <div><span id="v-t1-n" class="text-[10px] font-black block text-slate-400">--</span><span id="v-t1-v" class="text-2xl font-black italic">0.00</span></div>
+                                <div><span id="v-t2-n" class="text-[10px] font-black block text-slate-400">--</span><span id="v-t2-v" class="text-2xl font-black italic">0.00</span></div>
+                                <div><span id="v-t3-n" class="text-[10px] font-black block text-slate-400">--</span><span id="v-t3-v" class="text-2xl font-black italic">0.00</span></div>
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-[9px] font-black uppercase text-red-600">Total Paletizado</p>
-                            <p id="v-total" class="text-7xl font-black italic leading-none tracking-tighter">0.00 KG</p>
+                            <p class="text-[11px] font-black uppercase text-red-600 italic">Total Paletizado</p>
+                            <p id="v-total" class="text-8xl font-black italic leading-none tracking-tighter">0.00 KG</p>
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-end border-t border-slate-200 pt-2">
-                        <p id="v-material" class="text-xl font-black uppercase">--</p>
-                        <p class="text-[8px] font-bold opacity-30">SOFTWARE DE GESTIÓN R7 - VERSIÓN EMPRESARIAL</p>
+                    <div class="flex justify-between items-end border-t border-slate-300 pt-3">
+                        <p id="v-material" class="text-2xl font-black uppercase italic text-slate-800">--</p>
+                        <div class="flex items-center gap-2 opacity-40">
+                            <span class="text-[8px] font-bold uppercase">Software de Control Industrial</span>
+                            <span class="r7-badge">R7</span>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="ticket-qr-section">
                     <div id="qrcode"></div>
-                    <p class="text-[8px] font-black text-center mt-4 text-slate-400 uppercase tracking-widest leading-relaxed">Escaneo de<br>Trazabilidad</p>
+                    <p class="text-[9px] font-black text-center mt-6 text-slate-500 uppercase tracking-widest leading-tight">Escaneo Digital<br>Trazabilidad</p>
                 </div>
             </div>
 
             <div class="mt-8 flex gap-4 no-print">
-                <button onclick="window.print()" class="flex-1 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Imprimir Registro</button>
-                <button onclick="downloadImage()" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Descargar Imagen</button>
+                <button onclick="window.print()" class="flex-1 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg hover:bg-black transition-all">Imprimir Tique</button>
+                <button onclick="downloadImage()" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg hover:bg-indigo-500 transition-all">Descargar Copia Digital</button>
             </div>
         </div>
     </div>
@@ -255,7 +292,7 @@
 
     <script>
         const categories = ['ESP', 'DESPERDICIO', 'MASA', 'HARINA', 'REPROCESO ESP', 'REPROCESO CÓDITO', 'REPROCESO DE FIDEO'];
-        let db = JSON.parse(localStorage.getItem('R7_DATABASE_V1')) || [];
+        let db = JSON.parse(localStorage.getItem('BOCEL_DB_V1')) || [];
         
         const form = document.getElementById('entryForm');
         const searchBox = document.getElementById('searchBox');
@@ -266,7 +303,7 @@
         searchDate.valueAsDate = new Date();
 
         function sync() {
-            localStorage.setItem('R7_DATABASE_V1', JSON.stringify(db));
+            localStorage.setItem('BOCEL_DB_V1', JSON.stringify(db));
             render();
         }
 
@@ -282,7 +319,6 @@
                 return matchDate && matchTerm;
             });
 
-            // Monitor
             const stats = {};
             categories.forEach(c => stats[c] = 0);
             filtered.forEach(r => stats[r.tipo] += parseFloat(r.total));
@@ -290,12 +326,11 @@
             totalsGrid.innerHTML = '';
             categories.forEach(c => {
                 const div = document.createElement('div');
-                div.className = "bg-white p-4 rounded-2xl border border-slate-100";
+                div.className = "bg-white p-4 rounded-2xl border border-slate-100 shadow-sm";
                 div.innerHTML = `<p class="text-[8px] font-black text-slate-400 uppercase mb-1">${c}</p><p class="text-base font-black text-slate-800">${stats[c].toFixed(2)}<span class="text-[9px] opacity-40 ml-1">kg</span></p>`;
                 totalsGrid.appendChild(div);
             });
 
-            // Table
             tableBody.innerHTML = '';
             filtered.forEach(r => {
                 const tr = document.createElement('tr');
@@ -352,7 +387,7 @@
         };
 
         function deleteRecord(id) {
-            if(confirm("R7: ¿Confirma la eliminación de este registro?")) {
+            if(confirm("BOCEL: ¿Confirma la eliminación definitiva de este registro?")) {
                 db = db.filter(x => x.id !== id);
                 sync();
             }
@@ -375,19 +410,20 @@
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
             
-            // Payload R7: id|linea|total|fecha|hora|tipo|tandas
             const tandas = `${r.t1_n}:${r.t1_v},${r.t2_n}:${r.t2_v},${r.t3_n}:${r.t3_v}`;
             const raw = `${r.id}|${r.linea}|${r.total}|${r.fecha}|${r.hora}|${r.tipo}|${tandas}`;
             const encoded = btoa(unescape(encodeURIComponent(raw)));
-            const url = `${window.location.href.split('?')[0]}?s=${encoded}`;
+            const url = `${window.location.origin}${window.location.pathname}?s=${encoded}`;
 
             new QRCode(qrContainer, { text: url, width: 140, height: 140, colorDark: "#000000" });
 
+            // Clonar para impresión con retraso para asegurar carga del logo
             setTimeout(() => {
                 const printable = document.getElementById('printable-area');
                 printable.innerHTML = '';
-                printable.appendChild(document.getElementById('ticket-capture').cloneNode(true));
-            }, 500);
+                const clone = document.getElementById('ticket-capture').cloneNode(true);
+                printable.appendChild(clone);
+            }, 600);
 
             document.getElementById('modal').classList.remove('hidden');
         }
@@ -400,32 +436,48 @@
         function closeModal() { document.getElementById('modal').classList.add('hidden'); }
 
         async function downloadImage() {
-            const canvas = await html2canvas(document.getElementById('ticket-capture'), { scale: 3 });
+            const element = document.getElementById('ticket-capture');
+            const canvas = await html2canvas(element, { scale: 3, useCORS: true });
             const link = document.createElement('a');
-            link.download = `R7_REGISTRO_${document.getElementById('v-id').innerText}.png`;
+            link.download = `BOCEL_REGISTRO_${document.getElementById('v-id').innerText}.png`;
             link.href = canvas.toDataURL();
             link.click();
         }
 
-        // QR DETECTOR
+        function clearScanView() {
+            document.getElementById('mobile-view').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            const newURL = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, newURL);
+        }
+
+        // Lector inicial de URL (QR)
         const params = new URLSearchParams(window.location.search);
         if (params.has('s')) {
             try {
                 const d = decodeURIComponent(escape(atob(params.get('s')))).split('|');
                 document.getElementById('main-content').style.display = 'none';
                 document.getElementById('mobile-view').style.display = 'flex';
+                
                 document.getElementById('m-id').innerText = String(d[0]).padStart(3, '0');
                 document.getElementById('m-datetime').innerText = `REGISTRADO EL ${d[3]} A LAS ${d[4]}`;
                 document.getElementById('m-total').innerText = d[2] + " KG";
                 document.getElementById('m-material').innerText = d[5];
+                document.getElementById('m-linea-view').innerText = `LÍNEA DE PRODUCCIÓN: ${d[1]}`;
                 
                 const list = document.getElementById('m-tandas-list');
                 list.innerHTML = '';
                 d[6].split(',').forEach(t => {
                     const [n, v] = t.split(':');
-                    list.innerHTML += `<div class="flex justify-between items-center py-2 border-b border-slate-700 last:border-0"><span class="font-bold text-[10px] text-slate-400">TANDA ${n}</span><span class="font-black">${v} KG</span></div>`;
+                    list.innerHTML += `
+                        <div class="flex justify-between items-center py-3 border-b border-slate-700/50 last:border-0">
+                            <span class="font-bold text-[10px] text-slate-400 uppercase tracking-widest">Tanda ${n}</span>
+                            <span class="font-black text-white font-mono">${v} KG</span>
+                        </div>`;
                 });
-            } catch(e) { }
+            } catch(e) { 
+                clearScanView();
+            }
         }
 
         searchDate.onchange = render;
@@ -434,3 +486,4 @@
     </script>
 </body>
 </html>
+
