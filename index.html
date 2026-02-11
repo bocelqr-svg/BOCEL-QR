@@ -10,30 +10,35 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@700&display=swap');
         
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
-        .r7-badge { font-family: 'Orbitron', sans-serif; font-size: 10px; color: #6366f1; }
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; color: #1e293b; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
         @media print {
             .no-print { display: none !important; }
             .print-only { display: block !important; }
-            body { background: white; }
+            body { background: white; margin: 0; }
             @page { size: landscape; margin: 0; }
             #printable-area { display: flex !important; justify-content: center; align-items: center; height: 100vh; }
         }
         
         .print-only { display: none; }
         
-        /* Contenedor del Tique Industrial */
+        /* DISEÑO DE TIQUE PROFESIONAL (Basado en la foto) */
         .ticket-bocel {
-            width: 850px;
-            height: 380px;
+            width: 900px;
+            height: 420px;
             background: white;
-            border: 4px solid #000;
+            border: 2px solid #e2e8f0; /* Borde sutil para pantalla */
             display: flex;
-            padding: 25px;
+            padding: 40px;
             color: #000;
             position: relative;
+            box-sizing: border-box;
+        }
+
+        /* En impresión el borde es real */
+        @media print {
+            .ticket-bocel { border: 2px solid #000; }
         }
 
         .ticket-main {
@@ -41,17 +46,56 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding-right: 25px;
         }
 
         .ticket-qr-section {
-            width: 200px;
-            border-left: 2px dashed #000;
+            width: 180px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-left: 25px;
+            padding-left: 40px;
+            border-left: 1px dashed #cbd5e1;
+        }
+
+        /* Estilo del Total (Grande e Itálico como la foto) */
+        .total-section {
+            text-align: right;
+            line-height: 0.8;
+            margin-top: -20px;
+        }
+
+        .total-label {
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #ef4444; /* Rojo suave para el label */
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .total-value {
+            font-size: 110px;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -0.05em;
+        }
+
+        .total-unit {
+            font-size: 50px;
+            font-weight: 900;
+            font-style: italic;
+            display: block;
+            margin-top: -10px;
+        }
+
+        /* Estilo de la Categoría (Abajo a la izquierda) */
+        .category-name {
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            margin-top: 10px;
         }
 
         #mobile-view {
@@ -63,148 +107,136 @@
             padding: 20px;
             overflow-y: auto;
         }
-
-        .img-logo {
-            object-fit: contain;
-            display: block;
-        }
     </style>
 </head>
 <body>
 
-    <!-- VISTA ESCANEO MÓVIL (BOCEL) -->
+    <!-- VISTA ESCANEO MÓVIL -->
     <div id="mobile-view" class="flex flex-col items-center">
-        <div class="w-full max-w-md bg-slate-900 rounded-[2.5rem] text-white shadow-2xl overflow-hidden mt-4 border border-slate-800">
-            <div class="p-8 text-center border-b border-slate-800">
-                <div class="flex justify-center mb-4">
-                    <!-- Referencia corregida a IMG_4612.PNG -->
-                    <img src="IMG_4612.PNG" alt="Logo BOCEL" class="img-logo h-28 w-auto">
+        <div class="w-full max-w-md bg-slate-900 rounded-[3rem] text-white shadow-2xl overflow-hidden mt-4 border border-slate-800">
+            <div class="p-10 text-center border-b border-slate-800">
+                <div class="flex justify-center mb-6">
+                    <img src="IMG_4612.PNG" alt="BOCEL" class="h-32 w-auto object-contain">
                 </div>
-                <div class="r7-badge tracking-[0.3em] opacity-40">SISTEMA R7</div>
-                
-                <div class="mt-6 inline-block bg-indigo-600 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
-                    ID Registro: #<span id="m-id">000</span>
+                <div class="bg-indigo-600/20 text-indigo-400 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest inline-block mb-4">
+                    Registro #<span id="m-id">000</span>
                 </div>
-                <p id="m-datetime" class="text-[10px] opacity-50 mt-3 font-mono">--</p>
+                <p id="m-datetime" class="text-[10px] opacity-40 font-mono tracking-tighter">--</p>
             </div>
             
-            <div class="p-8 space-y-6">
-                <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700">
-                    <p class="text-[10px] font-bold text-indigo-400 uppercase mb-2">Material / Categoría</p>
-                    <p id="m-material" class="text-3xl font-black italic tracking-tighter text-white">--</p>
-                    <p id="m-linea-view" class="text-xs font-bold text-slate-400 mt-1">LÍNEA: --</p>
+            <div class="p-8 space-y-8">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-widest">Material</p>
+                    <p id="m-material" class="text-3xl font-black italic text-white uppercase leading-tight">--</p>
+                    <p id="m-linea-view" class="text-xs font-bold text-indigo-500 mt-2">LÍNEA: --</p>
                 </div>
 
-                <div class="bg-slate-800/80 p-6 rounded-3xl border border-slate-700">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-4">Detalle de Pesaje</p>
-                    <div id="m-tandas-list" class="space-y-3"></div>
+                <div class="bg-slate-800/40 p-6 rounded-3xl border border-slate-700/50">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase mb-4 tracking-widest">Pesos por Tanda</p>
+                    <div id="m-tandas-list" class="space-y-4"></div>
                 </div>
                 
-                <div class="text-center py-6 bg-white/5 rounded-3xl border border-white/5">
-                    <p class="text-[10px] font-bold text-indigo-300 uppercase mb-1 tracking-widest">Peso Neto Total</p>
-                    <p id="m-total" class="text-6xl font-black text-white italic tracking-tighter">0.00 KG</p>
+                <div class="text-center py-8 bg-white/5 rounded-[2rem] border border-white/5">
+                    <p class="text-[10px] font-bold text-red-500 uppercase mb-1 tracking-widest">Total Paletizado</p>
+                    <p id="m-total" class="text-7xl font-black text-white italic tracking-tighter">0.00 KG</p>
                 </div>
             </div>
             
-            <div class="px-8 pb-8 space-y-3">
-                <button onclick="clearScanView()" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all">
-                    Cerrar Información
+            <div class="px-8 pb-10">
+                <button onclick="clearScanView()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest transition-all shadow-xl shadow-indigo-900/20">
+                    Finalizar Consulta
                 </button>
-                <div class="flex justify-center gap-2 items-center opacity-30">
-                    <span class="text-[8px] font-black uppercase tracking-tighter text-slate-400">Powered by</span>
-                    <span class="r7-badge">R7</span>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- PANEL PRINCIPAL -->
-    <div id="main-content" class="max-w-[1500px] mx-auto py-6 px-4 no-print">
-        
-        <header class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 gap-4">
-            <div class="flex items-center gap-6">
-                <div class="flex items-center gap-4">
-                    <!-- Referencia corregida a IMG_4612.PNG -->
-                    <img src="IMG_4612.PNG" alt="BOCEL" class="img-logo h-20 w-auto">
-                    <div>
-                        <div class="r7-badge tracking-[0.2em] opacity-50">SISTEMA R7</div>
-                    </div>
-                </div>
-                
-                <div class="h-12 w-px bg-slate-200 hidden md:block"></div>
+    <!-- PANEL PRINCIPAL BOCEL -->
+    <div id="main-content" class="max-w-[1400px] mx-auto py-8 px-6 no-print">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
+            <div class="flex items-center gap-8">
+                <img src="IMG_4612.PNG" alt="BOCEL" class="h-20 w-auto object-contain">
+                <div class="h-14 w-px bg-slate-200 hidden md:block"></div>
                 <div>
-                    <h1 class="text-xl font-black text-slate-800 leading-none uppercase italic">Control de Producción</h1>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Planta de Procesamiento Industrial</p>
+                    <h1 class="text-2xl font-black text-slate-800 leading-none uppercase italic tracking-tighter">Control de Producción</h1>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-2">Gestión de Trazabilidad Industrial</p>
                 </div>
             </div>
             <div class="text-center md:text-right">
-                <p class="text-[10px] font-black text-indigo-600 uppercase mb-1">Correlativo Actual</p>
-                <p id="next-id-label" class="text-4xl font-black font-mono">#001</p>
+                <p class="text-[11px] font-black text-indigo-600 uppercase mb-1 tracking-widest">Correlativo</p>
+                <p id="next-id-label" class="text-5xl font-black font-mono">#001</p>
             </div>
         </header>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-8" id="totalsGrid"></div>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10" id="totalsGrid"></div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
             <!-- FORMULARIO -->
             <aside class="lg:col-span-4">
-                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 sticky top-6">
-                    <form id="entryForm" class="space-y-4">
+                <div class="bg-white p-8 rounded-[3rem] shadow-sm border border-slate-200 sticky top-8">
+                    <form id="entryForm" class="space-y-6">
                         <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase">Línea de Proceso</label>
-                            <select id="linea" class="w-full p-3 bg-slate-50 border-0 rounded-xl font-bold mt-1 text-slate-700">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Línea de Proceso</label>
+                            <select id="linea" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2 text-slate-700 focus:ring-2 ring-indigo-500 transition-all outline-none">
                                 <option>LPL01</option><option>LPL02</option><option>LFI01</option><option>LFI02</option><option>LPC02</option>
                             </select>
                         </div>
                         
-                        <div class="p-4 bg-indigo-50 rounded-2xl border border-indigo-100 space-y-3">
-                            <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest">Tandas (KG)</p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <select id="t1_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option></select>
-                                <input type="number" id="t1_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 1">
+                        <div class="p-6 bg-indigo-50/50 rounded-[2rem] border border-indigo-100/50 space-y-4">
+                            <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Pesos Tandas (KG)</p>
+                            <div class="grid grid-cols-2 gap-3">
+                                <select id="t1_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100"><option>A1</option><option>A2</option><option>B1</option></select>
+                                <input type="number" id="t1_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 1">
                             </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <select id="t2_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option selected>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option></select>
-                                <input type="number" id="t2_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 2">
+                            <div class="grid grid-cols-2 gap-3">
+                                <select id="t2_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100"><option>A1</option><option selected>B1</option></select>
+                                <input type="number" id="t2_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 2">
                             </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <select id="t3_name" class="p-2 rounded-lg font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option selected>C1</option><option>C2</option><option>C3</option></select>
-                                <input type="number" id="t3_val" step="0.01" class="p-2 rounded-lg font-bold text-xs" placeholder="Peso 3">
+                            <div class="grid grid-cols-2 gap-3">
+                                <select id="t3_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100"><option>A1</option><option selected>C1</option></select>
+                                <input type="number" id="t3_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 3">
                             </div>
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase">Categoría</label>
-                            <select id="tipo" class="w-full p-3 bg-slate-50 border-0 rounded-xl font-bold mt-1 text-slate-700">
-                                <option>ESP</option><option>DESPERDICIO</option><option>MASA</option><option>HARINA</option><option>REPROCESO ESP</option><option>REPROCESO CÓDITO</option><option>REPROCESO DE FIDEO</option>
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Categoría Material</label>
+                            <select id="tipo" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2 text-slate-700 focus:ring-2 ring-indigo-500 transition-all outline-none">
+                                <option>ESP</option>
+                                <option>DESPERDICIO</option>
+                                <option>MASA</option>
+                                <option>HARINA</option>
+                                <option>REPROCESO ESP</option>
+                                <option>REPROCESO CÓDITO</option>
+                                <option>REPROCESO DE FIDEO</option>
                             </select>
                         </div>
 
-                        <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-indigo-600 transition-all shadow-xl">Generar Registro</button>
+                        <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-indigo-600 transition-all shadow-xl shadow-slate-900/10">
+                            Generar Tique BOCEL
+                        </button>
                     </form>
                 </div>
             </aside>
 
-            <!-- LISTADO -->
-            <main class="lg:col-span-8 space-y-6">
-                <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="p-4 bg-slate-50 flex flex-wrap gap-4 justify-between items-center">
-                        <div class="flex gap-2">
-                            <input type="date" id="searchDate" class="p-2 rounded-xl bg-white border border-slate-200 text-xs font-bold">
-                            <input type="text" id="searchBox" placeholder="Buscar..." class="p-2 rounded-xl bg-white border border-slate-200 text-xs font-bold w-64">
+            <!-- TABLA -->
+            <main class="lg:col-span-8">
+                <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-6 bg-slate-50/50 flex justify-between items-center border-b border-slate-100">
+                        <div class="flex gap-3">
+                            <input type="date" id="searchDate" class="p-3 rounded-xl bg-white border border-slate-200 text-xs font-bold shadow-sm">
+                            <input type="text" id="searchBox" placeholder="Buscar registros..." class="p-3 rounded-xl bg-white border border-slate-200 text-xs font-bold w-72 shadow-sm">
                         </div>
-                        <span id="recordCount" class="text-[9px] font-black bg-slate-200 px-3 py-1 rounded-full uppercase">0 Registros</span>
+                        <span id="recordCount" class="text-[10px] font-black bg-slate-200 text-slate-600 px-4 py-2 rounded-full uppercase tracking-tighter">0 Registros</span>
                     </div>
-                    <div class="max-h-[550px] overflow-y-auto">
+                    <div class="max-h-[600px] overflow-y-auto">
                         <table class="w-full text-left">
-                            <thead class="bg-slate-50 sticky top-0 border-b border-slate-200">
-                                <tr class="text-[9px] font-black text-slate-400 uppercase">
-                                    <th class="px-6 py-4">ID</th>
-                                    <th class="px-6 py-4">Hora</th>
-                                    <th class="px-6 py-4">Línea</th>
-                                    <th class="px-6 py-4">Material</th>
-                                    <th class="px-6 py-4 text-right">Total</th>
-                                    <th class="px-6 py-4 text-center">Gestión</th>
+                            <thead class="bg-slate-50/80 sticky top-0 border-b border-slate-200 backdrop-blur-md">
+                                <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    <th class="px-8 py-5">ID</th>
+                                    <th class="px-8 py-5">Hora</th>
+                                    <th class="px-8 py-5">Línea</th>
+                                    <th class="px-8 py-5">Material</th>
+                                    <th class="px-8 py-5 text-right">Total</th>
+                                    <th class="px-8 py-5 text-center">Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody" class="divide-y divide-slate-100"></tbody>
@@ -215,69 +247,78 @@
         </div>
     </div>
 
-    <!-- MODAL TIQUE IMPRIMIBLE -->
-    <div id="modal" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 no-print">
-        <div class="bg-white p-8 rounded-[3rem] max-w-5xl w-full shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <div class="r7-badge opacity-40 uppercase">Documento Interno BOCEL</div>
-                <button onclick="closeModal()" class="text-3xl text-slate-300 hover:text-slate-900">&times;</button>
+    <!-- MODAL DE TIQUE - REPLICA EXACTA DE LA FOTO -->
+    <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-6 no-print">
+        <div class="bg-white p-10 rounded-[4rem] max-w-5xl w-full shadow-2xl">
+            <div class="flex justify-between items-center mb-10">
+                <div class="bg-slate-100 px-5 py-2 rounded-full text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Documento Interno BOCEL</div>
+                <button onclick="closeModal()" class="text-4xl text-slate-300 hover:text-slate-900 transition-colors">&times;</button>
             </div>
 
+            <!-- ÁREA DE CAPTURA DEL TIQUE -->
             <div id="ticket-capture" class="ticket-bocel mx-auto">
                 <div class="ticket-main">
+                    <!-- Fila Superior: Logo e Identificador -->
                     <div class="flex justify-between items-start">
-                        <div class="flex items-center gap-6">
-                            <!-- Referencia corregida a IMG_4612.PNG -->
-                            <img src="IMG_4612.PNG" alt="BOCEL" class="img-logo h-24 w-auto">
-                            <div class="border-l-2 border-black pl-4">
-                                <p class="text-[12px] font-black uppercase tracking-[0.2em]">Trazabilidad de Planta</p>
-                                <p class="text-[9px] font-bold opacity-50 uppercase">Control de Pesaje Industrial</p>
+                        <div class="flex items-center gap-8">
+                            <img src="IMG_4612.PNG" alt="BOCEL" class="h-24 w-auto object-contain">
+                            <div class="border-l-2 border-black pl-6 h-16 flex flex-col justify-center">
+                                <p class="text-[14px] font-black uppercase tracking-[0.3em]">Trazabilidad de Planta</p>
+                                <p class="text-[10px] font-bold opacity-40 uppercase">Control de Pesaje Industrial</p>
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-[10px] font-black text-slate-400 uppercase">Registro</p>
-                            <p id="v-id" class="text-6xl font-black font-mono">#000</p>
+                            <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Identificador</p>
+                            <p id="v-id" class="text-6xl font-black font-mono leading-none mt-1">#000</p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 my-3 text-[12px] font-bold border-y-4 border-black py-2">
-                        <p>LÍNEA: <span id="v-linea" class="font-black uppercase text-lg">--</span></p>
-                        <p class="text-right">FECHA: <span id="v-fecha" class="font-black">--</span> | <span id="v-hora" class="font-black">--</span></p>
+                    <!-- Fila Info: Línea y Fecha (Con bordes gruesos como la foto) -->
+                    <div class="grid grid-cols-2 gap-4 my-6 border-y-4 border-black py-3 font-bold text-[14px]">
+                        <p class="uppercase">Línea: <span id="v-linea" class="font-black text-xl ml-2">--</span></p>
+                        <p class="text-right uppercase">Fecha: <span id="v-fecha" class="font-black">--</span> | <span id="v-hora" class="font-black">--</span></p>
                     </div>
 
-                    <div class="flex justify-between items-center">
-                        <div class="space-y-1">
-                            <p class="text-[9px] font-black uppercase text-slate-400 mb-1">Pesos Netos (KG)</p>
-                            <div class="flex gap-6">
-                                <div><span id="v-t1-n" class="text-[10px] font-black block text-slate-400">--</span><span id="v-t1-v" class="text-2xl font-black italic">0.00</span></div>
-                                <div><span id="v-t2-n" class="text-[10px] font-black block text-slate-400">--</span><span id="v-t2-v" class="text-2xl font-black italic">0.00</span></div>
-                                <div><span id="v-t3-n" class="text-[10px] font-black block text-slate-400">--</span><span id="v-t3-v" class="text-2xl font-black italic">0.00</span></div>
+                    <!-- Fila Central: Tandas y Total -->
+                    <div class="flex justify-between items-end flex-1 pb-4">
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-[10px] font-black uppercase text-slate-400 mb-3 tracking-widest">Desglose de Producción (kg)</p>
+                                <div class="flex gap-10">
+                                    <div><span id="v-t1-n" class="text-[11px] font-black block text-slate-400 uppercase">--</span><span id="v-t1-v" class="text-3xl font-black italic">0.00</span></div>
+                                    <div><span id="v-t2-n" class="text-[11px] font-black block text-slate-400 uppercase">--</span><span id="v-t2-v" class="text-3xl font-black italic">0.00</span></div>
+                                    <div><span id="v-t3-n" class="text-[11px] font-black block text-slate-400 uppercase">--</span><span id="v-t3-v" class="text-3xl font-black italic">0.00</span></div>
+                                </div>
                             </div>
+                            <!-- CATEGORÍA (Sin cuadro negro, estilo limpio) -->
+                            <div id="v-material" class="category-name">--</div>
                         </div>
-                        <div class="text-right">
-                            <p class="text-[11px] font-black uppercase text-red-600 italic">Total Paletizado</p>
-                            <p id="v-total" class="text-8xl font-black italic leading-none tracking-tighter">0.00 KG</p>
+                        
+                        <div class="total-section">
+                            <span class="total-label">Total Paletizado</span>
+                            <span id="v-total-val" class="total-value">0.00</span>
+                            <span class="total-unit">KG</span>
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-end border-t border-slate-300 pt-3">
-                        <p id="v-material" class="text-2xl font-black uppercase italic text-slate-800">--</p>
-                        <div class="flex items-center gap-2 opacity-30">
-                            <span class="text-[8px] font-bold uppercase">Tecnología de Control</span>
-                            <span class="r7-badge">R7</span>
+                    <!-- Footer del Tique -->
+                    <div class="flex justify-between items-center border-t border-slate-200 pt-4 opacity-30">
+                        <div class="flex items-center gap-3">
+                            <span class="text-[9px] font-black uppercase tracking-widest">Software R7 Industrial</span>
                         </div>
+                        <p class="text-[9px] font-bold uppercase">Verificado por Control de Calidad</p>
                     </div>
                 </div>
                 
                 <div class="ticket-qr-section">
                     <div id="qrcode"></div>
-                    <p class="text-[9px] font-black text-center mt-6 text-slate-500 uppercase tracking-widest leading-tight">Acceso Digital<br>Validación</p>
+                    <p class="text-[10px] font-black text-center mt-6 text-slate-400 uppercase tracking-[0.2em] leading-tight">Acceso Digital<br>Validación</p>
                 </div>
             </div>
 
-            <div class="mt-8 flex gap-4 no-print">
-                <button onclick="window.print()" class="flex-1 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg hover:bg-black transition-all">Imprimir Tique</button>
-                <button onclick="downloadImage()" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg hover:bg-indigo-500 transition-all">Descargar Imagen</button>
+            <div class="mt-12 flex gap-5 no-print">
+                <button onclick="window.print()" class="flex-1 bg-slate-900 text-white py-5 rounded-[2rem] font-black uppercase text-xs tracking-widest shadow-xl hover:scale-[1.02] transition-all">Imprimir Tique Físico</button>
+                <button onclick="downloadImage()" class="flex-1 bg-indigo-600 text-white py-5 rounded-[2rem] font-black uppercase text-xs tracking-widest shadow-xl hover:scale-[1.02] transition-all">Guardar Imagen Digital</button>
             </div>
         </div>
     </div>
@@ -286,7 +327,7 @@
 
     <script>
         const categories = ['ESP', 'DESPERDICIO', 'MASA', 'HARINA', 'REPROCESO ESP', 'REPROCESO CÓDITO', 'REPROCESO DE FIDEO'];
-        let db = JSON.parse(localStorage.getItem('BOCEL_DB_FINAL')) || [];
+        let db = JSON.parse(localStorage.getItem('BOCEL_DB_MASTER_V2')) || [];
         
         const form = document.getElementById('entryForm');
         const searchBox = document.getElementById('searchBox');
@@ -297,18 +338,14 @@
         searchDate.valueAsDate = new Date();
 
         function sync() {
-            localStorage.setItem('BOCEL_DB_FINAL', JSON.stringify(db));
+            localStorage.setItem('BOCEL_DB_MASTER_V2', JSON.stringify(db));
             render();
         }
 
         function render() {
             const date = searchDate.value;
             const term = searchBox.value.toLowerCase();
-            const filtered = db.filter(r => {
-                const matchDate = r.fecha === date;
-                const matchTerm = r.linea.toLowerCase().includes(term) || r.tipo.toLowerCase().includes(term) || String(r.id).includes(term);
-                return matchDate && matchTerm;
-            });
+            const filtered = db.filter(r => (r.fecha === date) && (r.linea.toLowerCase().includes(term) || r.tipo.toLowerCase().includes(term) || String(r.id).includes(term)));
 
             const stats = {};
             categories.forEach(c => stats[c] = 0);
@@ -317,24 +354,24 @@
             totalsGrid.innerHTML = '';
             categories.forEach(c => {
                 const div = document.createElement('div');
-                div.className = "bg-white p-4 rounded-2xl border border-slate-100 shadow-sm";
-                div.innerHTML = `<p class="text-[8px] font-black text-slate-400 uppercase mb-1">${c}</p><p class="text-base font-black text-slate-800">${stats[c].toFixed(2)}<span class="text-[9px] opacity-40 ml-1">kg</span></p>`;
+                div.className = "bg-white p-5 rounded-3xl border border-slate-100 shadow-sm transition-all hover:border-indigo-200";
+                div.innerHTML = `<p class="text-[9px] font-black text-slate-400 uppercase mb-2 tracking-tighter">${c}</p><p class="text-xl font-black text-slate-800">${stats[c].toFixed(2)}<span class="text-[10px] opacity-30 ml-1">kg</span></p>`;
                 totalsGrid.appendChild(div);
             });
 
             tableBody.innerHTML = '';
             filtered.forEach(r => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition-all";
+                tr.className = "hover:bg-slate-50/50 transition-all";
                 tr.innerHTML = `
-                    <td class="px-6 py-4 font-black text-indigo-600 font-mono">#${String(r.id).padStart(3, '0')}</td>
-                    <td class="px-6 py-4 text-[10px] font-bold text-slate-400 font-mono">${r.hora}</td>
-                    <td class="px-6 py-4 text-xs font-black uppercase text-slate-600">${r.linea}</td>
-                    <td class="px-6 py-4"><span class="text-[9px] font-black border border-slate-200 px-2 py-1 rounded-full uppercase text-slate-500">${r.tipo}</span></td>
-                    <td class="px-6 py-4 text-right font-black text-base text-slate-900">${r.total} kg</td>
-                    <td class="px-6 py-4 text-center flex justify-center gap-2">
-                        <button onclick='viewRecord(${r.id})' class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all">👁️</button>
-                        <button onclick='deleteRecord(${r.id})' class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center hover:bg-red-600 hover:text-white text-red-400 transition-all">🗑️</button>
+                    <td class="px-8 py-5 font-black text-indigo-600 font-mono text-lg">#${String(r.id).padStart(3, '0')}</td>
+                    <td class="px-8 py-5 text-[11px] font-bold text-slate-400 font-mono">${r.hora}</td>
+                    <td class="px-8 py-5 text-xs font-black uppercase text-slate-700">${r.linea}</td>
+                    <td class="px-8 py-5"><span class="text-[10px] font-black border border-slate-200 px-3 py-1.5 rounded-full uppercase text-slate-500 bg-white shadow-sm">${r.tipo}</span></td>
+                    <td class="px-8 py-5 text-right font-black text-xl text-slate-900">${r.total} <span class="text-[10px] opacity-30">kg</span></td>
+                    <td class="px-8 py-5 text-center flex justify-center gap-3">
+                        <button onclick='viewRecord(${r.id})' class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all shadow-sm">👁️</button>
+                        <button onclick='deleteRecord(${r.id})' class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center hover:bg-red-600 hover:text-white text-red-400 transition-all shadow-sm">🗑️</button>
                     </td>
                 `;
                 tableBody.appendChild(tr);
@@ -351,7 +388,6 @@
             const t2v = parseFloat(document.getElementById('t2_val').value || 0);
             const t3v = parseFloat(document.getElementById('t3_val').value || 0);
             const total = (t1v + t2v + t3v).toFixed(2);
-            
             const now = new Date();
             const entry = {
                 id: (db.length > 0 ? Math.max(...db.map(x => x.id)) : 0) + 1,
@@ -359,24 +395,17 @@
                 t1_n: document.getElementById('t1_name').value, t1_v: t1v.toFixed(2),
                 t2_n: document.getElementById('t2_name').value, t2_v: t2v.toFixed(2),
                 t3_n: document.getElementById('t3_name').value, t3_v: t3v.toFixed(2),
-                total: total,
-                tipo: document.getElementById('tipo').value,
+                total: total, tipo: document.getElementById('tipo').value,
                 fecha: now.toISOString().split('T')[0],
                 hora: now.toLocaleTimeString('es-ES', { hour12: false })
             };
-
             db.unshift(entry);
             sync();
             openModal(entry);
             form.reset();
         };
 
-        function deleteRecord(id) {
-            if(confirm("¿Eliminar registro de BOCEL definitivamente?")) {
-                db = db.filter(x => x.id !== id);
-                sync();
-            }
-        }
+        function deleteRecord(id) { if(confirm("¿Confirmar eliminación definitiva?")) { db = db.filter(x => x.id !== id); sync(); } }
 
         function openModal(r) {
             document.getElementById('v-id').innerText = `#${String(r.id).padStart(3, '0')}`;
@@ -384,44 +413,35 @@
             document.getElementById('v-fecha').innerText = r.fecha;
             document.getElementById('v-hora').innerText = r.hora;
             document.getElementById('v-material').innerText = r.tipo;
-            document.getElementById('v-total').innerText = `${r.total} KG`;
-            document.getElementById('v-t1-n').innerText = `TANDA ${r.t1_n}`;
+            document.getElementById('v-total-val').innerText = r.total;
+            document.getElementById('v-t1-n').innerText = `Tanda ${r.t1_n}`;
             document.getElementById('v-t1-v').innerText = `${r.t1_v}`;
-            document.getElementById('v-t2-n').innerText = `TANDA ${r.t2_n}`;
+            document.getElementById('v-t2-n').innerText = `Tanda ${r.t2_n}`;
             document.getElementById('v-t2-v').innerText = `${r.t2_v}`;
-            document.getElementById('v-t3-n').innerText = `TANDA ${r.t3_n}`;
+            document.getElementById('v-t3-n').innerText = `Tanda ${r.t3_n}`;
             document.getElementById('v-t3-v').innerText = `${r.t3_v}`;
 
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
-            
             const tandas = `${r.t1_n}:${r.t1_v},${r.t2_n}:${r.t2_v},${r.t3_n}:${r.t3_v}`;
-            const raw = `${r.id}|${r.linea}|${r.total}|${r.fecha}|${r.hora}|${r.tipo}|${tandas}`;
-            const encoded = btoa(unescape(encodeURIComponent(raw)));
-            const url = `${window.location.origin}${window.location.pathname}?s=${encoded}`;
-
-            new QRCode(qrContainer, { text: url, width: 140, height: 140, colorDark: "#000000" });
+            const encoded = btoa(unescape(encodeURIComponent(`${r.id}|${r.linea}|${r.total}|${r.fecha}|${r.hora}|${r.tipo}|${tandas}`)));
+            new QRCode(qrContainer, { text: `${window.location.origin}${window.location.pathname}?s=${encoded}`, width: 140, height: 140, colorDark: "#000000" });
 
             setTimeout(() => {
                 const printable = document.getElementById('printable-area');
                 printable.innerHTML = '';
                 printable.appendChild(document.getElementById('ticket-capture').cloneNode(true));
             }, 600);
-
             document.getElementById('modal').classList.remove('hidden');
         }
 
-        function viewRecord(id) {
-            const found = db.find(x => x.id === id);
-            if(found) openModal(found);
-        }
-
+        function viewRecord(id) { const f = db.find(x => x.id === id); if(f) openModal(f); }
         function closeModal() { document.getElementById('modal').classList.add('hidden'); }
 
         async function downloadImage() {
             const canvas = await html2canvas(document.getElementById('ticket-capture'), { scale: 3, useCORS: true });
             const link = document.createElement('a');
-            link.download = `BOCEL_Tique_${document.getElementById('v-id').innerText}.png`;
+            link.download = `Tique_BOCEL_${document.getElementById('v-id').innerText}.png`;
             link.href = canvas.toDataURL();
             link.click();
         }
@@ -432,32 +452,26 @@
             window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
         }
 
-        // Lector de QR al cargar
         const params = new URLSearchParams(window.location.search);
         if (params.has('s')) {
             try {
                 const d = decodeURIComponent(escape(atob(params.get('s')))).split('|');
                 document.getElementById('main-content').style.display = 'none';
                 document.getElementById('mobile-view').style.display = 'flex';
-                
                 document.getElementById('m-id').innerText = String(d[0]).padStart(3, '0');
                 document.getElementById('m-datetime').innerText = `REGISTRADO EL ${d[3]} A LAS ${d[4]}`;
                 document.getElementById('m-total').innerText = d[2] + " KG";
                 document.getElementById('m-material').innerText = d[5];
-                document.getElementById('m-linea-view').innerText = `LÍNEA DE PRODUCCIÓN: ${d[1]}`;
-                
+                document.getElementById('m-linea-view').innerText = `LÍNEA: ${d[1]}`;
                 const list = document.getElementById('m-tandas-list');
                 list.innerHTML = '';
                 d[6].split(',').forEach(t => {
                     const [n, v] = t.split(':');
-                    list.innerHTML += `<div class="flex justify-between items-center py-3 border-b border-slate-700/50 last:border-0"><span class="font-bold text-[10px] text-slate-400 uppercase tracking-widest">Tanda ${n}</span><span class="font-black text-white font-mono">${v} KG</span></div>`;
+                    list.innerHTML += `<div class="flex justify-between items-center py-4 border-b border-slate-700/50 last:border-0"><span class="font-bold text-xs text-slate-400 uppercase tracking-widest">Tanda ${n}</span><span class="font-black text-lg text-white font-mono">${v} KG</span></div>`;
                 });
             } catch(e) { clearScanView(); }
         }
-
-        searchDate.onchange = render;
-        searchBox.oninput = render;
-        sync();
+        render();
     </script>
 </body>
 </html>
