@@ -57,7 +57,7 @@
             border-left: 1px dashed #cbd5e1;
         }
 
-        /* AJUSTE DE TAMAÑO TOTAL (Más pequeño y discreto) */
+        /* AJUSTE DE TAMAÑO TOTAL (Pequeño y profesional) */
         .total-section {
             text-align: right;
             line-height: 1;
@@ -74,14 +74,14 @@
         }
 
         .total-value {
-            font-size: 48px; /* Tamaño reducido según solicitud */
+            font-size: 48px;
             font-weight: 900;
             font-style: italic;
             letter-spacing: -0.02em;
         }
 
         .total-unit {
-            font-size: 20px; /* Tamaño reducido según solicitud */
+            font-size: 20px;
             font-weight: 900;
             font-style: italic;
             display: block;
@@ -109,7 +109,7 @@
 </head>
 <body>
 
-    <!-- VISTA ESCANEO MÓVIL -->
+    <!-- VISTA ESCANEO MÓVIL BOCEL -->
     <div id="mobile-view" class="flex flex-col items-center">
         <div class="w-full max-w-md bg-slate-900 rounded-[3rem] text-white shadow-2xl overflow-hidden mt-4 border border-slate-800">
             <div class="p-10 text-center border-b border-slate-800">
@@ -178,18 +178,25 @@
                             </select>
                         </div>
                         
+                        <!-- REGISTRO DE TANDAS ACTUALIZADO -->
                         <div class="p-6 bg-indigo-50/50 rounded-[2rem] border border-indigo-100/50 space-y-4">
                             <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Pesos Tandas (KG)</p>
                             <div class="grid grid-cols-2 gap-3">
-                                <select id="t1_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100"><option>A1</option><option>A2</option><option>B1</option></select>
+                                <select id="t1_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100">
+                                    <option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option>
+                                </select>
                                 <input type="number" id="t1_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 1">
                             </div>
                             <div class="grid grid-cols-2 gap-3">
-                                <select id="t2_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100"><option>A1</option><option selected>B1</option></select>
+                                <select id="t2_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100">
+                                    <option>A1</option><option>A2</option><option>A3</option><option selected>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option>
+                                </select>
                                 <input type="number" id="t2_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 2">
                             </div>
                             <div class="grid grid-cols-2 gap-3">
-                                <select id="t3_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100"><option>A1</option><option selected>C1</option></select>
+                                <select id="t3_name" class="p-3 rounded-xl font-bold text-xs border border-indigo-100">
+                                    <option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option selected>C1</option><option>C2</option><option>C3</option>
+                                </select>
                                 <input type="number" id="t3_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 3">
                             </div>
                         </div>
@@ -230,7 +237,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE DOCUMENTO -->
+    <!-- MODAL DE DOCUMENTO (TIQUE) -->
     <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-6 no-print">
         <div class="bg-white p-10 rounded-[4rem] max-w-5xl w-full shadow-2xl">
             <div class="flex justify-between items-center mb-10">
@@ -272,7 +279,6 @@
                             <div id="v-material" class="category-name">--</div>
                         </div>
                         
-                        <!-- SECCIÓN TOTAL (Ajustada más pequeña) -->
                         <div class="total-section">
                             <span class="total-label">Total Paletizado</span>
                             <span id="v-total-val" class="total-value">0.00</span>
