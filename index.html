@@ -19,86 +19,151 @@
             body { background: white; margin: 0; }
             @page { size: landscape; margin: 0; }
             #printable-area { display: flex !important; justify-content: center; align-items: center; height: 100vh; }
-            
-            /* Contraste máximo para impresión */
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000 !important; border-color: #000 !important; }
         }
         
         .print-only { display: none; }
         
-        /* CONTENEDOR TIQUE REFORMADO */
+        /* TIQUE INDUSTRIAL REFORMADO (ESTILO FOTO) */
         .ticket-bocel {
-            width: 900px;
-            height: 420px;
+            width: 950px;
+            height: 450px;
             background: white;
             border: 4px solid #000;
             display: flex;
-            padding: 35px;
+            flex-direction: column;
+            padding: 30px 40px;
             color: #000;
             position: relative;
             box-sizing: border-box;
             text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
         }
 
-        .ticket-content {
-            flex: 1;
+        .header-section {
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            border-right: 2px dashed #000;
-            padding-right: 30px;
-        }
-
-        .qr-area {
-            width: 200px;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding-left: 30px;
+            margin-bottom: 10px;
         }
 
-        /* Estilo de los textos para evitar que toquen líneas */
-        .linea-fecha-box {
-            border-top: 4px solid #000;
-            border-bottom: 4px solid #000;
+        .header-center {
+            text-align: center;
+            flex: 1;
+        }
+
+        .header-center h2 {
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .header-center p {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* Línea de Información Principal */
+        .info-bar {
+            border-top: 5px solid #000;
+            border-bottom: 5px solid #000;
             padding: 12px 0;
-            margin: 15px 0;
+            margin: 10px 0;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-weight: 900;
             font-size: 16px;
         }
 
-        /* Ajuste del Total para que no sea excesivo */
-        .total-box {
+        /* Cuerpo del tique: Pesos a la izquierda, Total y QR a la derecha */
+        .body-grid {
+            display: grid;
+            grid-template-columns: 1fr 220px 180px;
+            gap: 20px;
+            flex: 1;
+            align-items: center;
+        }
+
+        .tandas-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tandas-grid {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .tanda-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tanda-label {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .tanda-value {
+            font-size: 32px;
+            font-weight: 900;
+            font-style: italic;
+        }
+
+        .total-section {
             text-align: right;
-            line-height: 0.9;
+            border-left: 2px dashed #000;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .total-label {
+            font-size: 12px;
+            font-weight: 900;
+            color: #ff0000; /* Color rojo para visualización, negro en impresión */
+            text-transform: uppercase;
+            margin-bottom: 5px;
         }
 
         .total-value {
-            font-size: 75px; /* Tamaño ajustado para no tocar las líneas */
+            font-size: 80px;
             font-weight: 900;
             font-style: italic;
-            letter-spacing: -0.04em;
+            line-height: 0.8;
+            letter-spacing: -0.05em;
         }
 
         .total-unit {
-            font-size: 35px;
+            font-size: 40px;
             font-weight: 900;
             font-style: italic;
             display: block;
-            margin-top: -8px;
         }
 
-        /* Categoría abajo a la izquierda bien posicionada */
-        .category-text {
-            font-size: 32px;
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-footer {
+            margin-top: auto;
+            font-size: 36px;
             font-weight: 900;
             text-transform: uppercase;
-            margin-top: 10px;
-            line-height: 1;
+            font-style: italic;
+            letter-spacing: -0.02em;
         }
 
         #mobile-view {
@@ -114,63 +179,62 @@
 </head>
 <body>
 
-    <!-- VISTA ESCANEO MÓVIL -->
+    <!-- VISTA ESCANEO MÓVIL BOCEL -->
     <div id="mobile-view" class="flex flex-col items-center">
         <div class="w-full max-w-md bg-slate-900 rounded-[3rem] text-white shadow-2xl overflow-hidden mt-4 border border-slate-800">
             <div class="p-10 text-center border-b border-slate-800">
                 <div class="flex justify-center mb-6">
                     <img src="IMG_4612.PNG" alt="BOCEL" class="h-32 w-auto object-contain">
                 </div>
-                <div class="bg-indigo-600/20 text-indigo-400 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest inline-block mb-4">
-                    Registro #<span id="m-id">000</span>
+                <div class="bg-indigo-600 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest inline-block mb-4">
+                    REGISTRO #<span id="m-id">000</span>
                 </div>
                 <p id="m-datetime" class="text-[10px] opacity-40 font-mono">--</p>
             </div>
             
             <div class="p-8 space-y-8">
                 <div>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-widest">Material</p>
+                    <p class="text-[10px] font-bold text-indigo-400 uppercase mb-2 tracking-widest">Material Registrado</p>
                     <p id="m-material" class="text-3xl font-black italic text-white uppercase">--</p>
-                    <p id="m-linea-view" class="text-xs font-bold text-indigo-500 mt-2">LÍNEA: --</p>
+                    <p id="m-linea-view" class="text-xs font-bold text-slate-400 mt-2 tracking-widest">LÍNEA: --</p>
                 </div>
 
-                <div class="bg-slate-800/40 p-6 rounded-3xl border border-slate-700/50">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase mb-4 tracking-widest">Pesos por Tanda</p>
+                <div class="bg-slate-800/60 p-6 rounded-3xl border border-slate-700">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Detalle de Pesaje</p>
                     <div id="m-tandas-list" class="space-y-4"></div>
                 </div>
                 
-                <div class="text-center py-8 bg-white/5 rounded-[2rem]">
-                    <p class="text-[10px] font-bold text-red-500 uppercase mb-1 tracking-widest">Total Paletizado</p>
-                    <p id="m-total" class="text-6xl font-black text-white italic tracking-tighter">0.00 KG</p>
+                <div class="text-center py-8 bg-indigo-600 rounded-[2rem] shadow-xl shadow-indigo-900/40">
+                    <p class="text-[10px] font-bold text-white/70 uppercase mb-1 tracking-widest">Peso Total Paletizado</p>
+                    <p id="m-total" class="text-7xl font-black text-white italic tracking-tighter">0.00 KG</p>
                 </div>
             </div>
             
             <div class="px-8 pb-10">
-                <button onclick="clearScanView()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest transition-all">
+                <button onclick="clearScanView()" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest transition-all">
                     Finalizar Consulta
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- PANEL PRINCIPAL BOCEL -->
+    <!-- PANEL PRINCIPAL -->
     <div id="main-content" class="max-w-[1400px] mx-auto py-8 px-6 no-print">
         <header class="flex flex-col md:flex-row justify-between items-center mb-10 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
             <div class="flex items-center gap-8">
-                <img src="IMG_4612.PNG" alt="BOCEL" class="h-24 w-auto object-contain">
+                <img src="IMG_4612.PNG" alt="BOCEL" class="h-20 w-auto object-contain">
                 <div class="h-14 w-px bg-slate-200 hidden md:block"></div>
                 <div>
                     <h1 class="text-2xl font-black text-slate-800 leading-none uppercase italic tracking-tighter">Control de Producción</h1>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-2">Gestión de Trazabilidad Industrial</p>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-2">Planta de Procesamiento Industrial</p>
                 </div>
             </div>
             <div class="text-center md:text-right">
-                <p class="text-[11px] font-black text-indigo-600 uppercase mb-1 tracking-widest">Correlativo</p>
+                <p class="text-[11px] font-black text-indigo-600 uppercase mb-1 tracking-widest">Próximo Folio</p>
                 <p id="next-id-label" class="text-5xl font-black font-mono">#001</p>
             </div>
         </header>
 
-        <!-- DASHBOARD -->
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10" id="totalsGrid"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -179,36 +243,36 @@
                 <div class="bg-white p-8 rounded-[3rem] shadow-sm border border-slate-200 sticky top-8">
                     <form id="entryForm" class="space-y-6">
                         <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Línea de Proceso</label>
-                            <select id="linea" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2 text-slate-700 outline-none">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Línea de Proceso</label>
+                            <select id="linea" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2 outline-none">
                                 <option>LPL01</option><option>LPL02</option><option>LFI01</option><option>LFI02</option><option>LPC02</option><option>SILOS</option>
                             </select>
                         </div>
                         
                         <div class="p-6 bg-indigo-50/50 rounded-[2rem] border border-indigo-100/50 space-y-4">
-                            <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Registro de Tandas (KG)</p>
+                            <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Pesaje de Tandas (KG)</p>
                             <div class="grid grid-cols-2 gap-3">
                                 <select id="t1_name" class="p-3 rounded-xl font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option></select>
-                                <input type="number" id="t1_val" step="0.01" class="p-3 rounded-xl font-bold text-xs" placeholder="Peso 1">
+                                <input type="number" id="t1_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 1">
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <select id="t2_name" class="p-3 rounded-xl font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option selected>B1</option><option>B2</option><option>B3</option><option>C1</option><option>C2</option><option>C3</option></select>
-                                <input type="number" id="t2_val" step="0.01" class="p-3 rounded-xl font-bold text-xs" placeholder="Peso 2">
+                                <input type="number" id="t2_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 2">
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <select id="t3_name" class="p-3 rounded-xl font-bold text-xs"><option>A1</option><option>A2</option><option>A3</option><option>B1</option><option>B2</option><option>B3</option><option selected>C1</option><option>C2</option><option>C3</option></select>
-                                <input type="number" id="t3_val" step="0.01" class="p-3 rounded-xl font-bold text-xs" placeholder="Peso 3">
+                                <input type="number" id="t3_val" step="0.01" class="p-3 rounded-xl font-bold text-xs border border-indigo-100" placeholder="Peso 3">
                             </div>
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Categoría Material</label>
-                            <select id="tipo" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Categoría de Material</label>
+                            <select id="tipo" class="w-full p-4 bg-slate-50 border-0 rounded-2xl font-bold mt-2 outline-none">
                                 <option>ESP</option><option>DESPERDICIO</option><option>MASA</option><option>HARINA CONTAMINADA</option><option>REPROCESO ESP</option><option>REPROCESO CÓDITO</option><option>REPROCESO DE FIDEO</option>
                             </select>
                         </div>
 
-                        <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-indigo-600 transition-all shadow-xl">Generar Registro</button>
+                        <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-indigo-600 transition-all shadow-xl">Generar Registro BOCEL</button>
                     </form>
                 </div>
             </aside>
@@ -225,7 +289,7 @@
                     </div>
                     <div class="max-h-[600px] overflow-y-auto">
                         <table class="w-full text-left">
-                            <thead class="bg-slate-50/80 sticky top-0 border-b border-slate-200">
+                            <thead class="bg-slate-50/80 sticky top-0 border-b border-slate-200 backdrop-blur-md">
                                 <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                                     <th class="px-8 py-5">ID</th><th class="px-8 py-5">Hora</th><th class="px-8 py-5">Línea</th><th class="px-8 py-5">Material</th><th class="px-8 py-5 text-right">Total</th><th class="px-8 py-5 text-center">Gestión</th>
                                 </tr>
@@ -238,77 +302,83 @@
         </div>
     </div>
 
-    <!-- MODAL DE DOCUMENTO (REFORMADO) -->
-    <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-6 no-print">
-        <div class="bg-white p-10 rounded-[4rem] max-w-5xl w-full shadow-2xl border-4 border-black">
-            <div class="flex justify-between items-center mb-8">
-                <div class="text-[10px] font-black bg-black text-white px-5 py-2 rounded-full tracking-[0.3em]">DOCUMENTO INTERNO BOCEL</div>
+    <!-- MODAL DE TIQUE REFORMADO (ESTILO EXACTO) -->
+    <div id="modal" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-50 hidden flex items-center justify-center p-6 no-print">
+        <div class="bg-white p-10 rounded-[4rem] max-w-6xl w-full shadow-2xl">
+            <div class="flex justify-between items-center mb-10">
+                <div class="text-[10px] font-black border-2 border-black px-5 py-2 rounded-full tracking-widest">DOCUMENTO INTERNO BOCEL</div>
                 <button onclick="closeModal()" class="text-4xl text-slate-300 hover:text-black transition-colors">&times;</button>
             </div>
 
-            <!-- TIQUE CORREGIDO -->
+            <!-- TIQUE DE ALTA CALIDAD -->
             <div id="ticket-capture" class="ticket-bocel mx-auto">
-                <div class="ticket-content">
-                    <!-- Fila 1: Logo e Identificador -->
-                    <div class="flex justify-between items-start">
-                        <div class="flex items-center gap-8">
-                            <img src="IMG_4612.PNG" alt="BOCEL" class="h-28 w-auto object-contain">
-                            <div class="border-l-4 border-black pl-6 h-20 flex flex-col justify-center">
-                                <p class="text-[18px] font-black uppercase tracking-[0.3em] leading-tight">Trazabilidad de Planta</p>
-                                <p class="text-[10px] font-bold uppercase tracking-widest mt-1">Control de Pesaje Industrial</p>
+                <!-- Header: Logo, Título, Registro -->
+                <div class="header-section">
+                    <img src="IMG_4612.PNG" alt="Logo BOCEL" class="h-28 w-auto">
+                    <div class="header-center">
+                        <h2>Trazabilidad de Planta</h2>
+                        <p>Control de Pesaje Industrial</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[12px] font-black opacity-40 uppercase tracking-widest">Registro</p>
+                        <p id="v-id" class="text-7xl font-black font-mono leading-none">#000</p>
+                    </div>
+                </div>
+
+                <!-- Barra de Info con Bordes Gruesos -->
+                <div class="info-bar">
+                    <div class="uppercase">Línea: <span id="v-linea" class="text-2xl ml-2">--</span></div>
+                    <div class="uppercase">Fecha: <span id="v-fecha" class="ml-1">--</span> | <span id="v-hora" class="ml-1">--</span></div>
+                </div>
+
+                <!-- Contenido Principal -->
+                <div class="body-grid">
+                    <div class="tandas-section">
+                        <p class="tanda-label opacity-40 mb-3 tracking-widest">Desglose de Pesaje (KG)</p>
+                        <div class="tandas-grid">
+                            <div class="tanda-item">
+                                <span id="v-t1-n" class="tanda-label">--</span>
+                                <span id="v-t1-v" class="tanda-value">0.00</span>
+                            </div>
+                            <div class="tanda-item">
+                                <span id="v-t2-n" class="tanda-label">--</span>
+                                <span id="v-t2-v" class="tanda-value">0.00</span>
+                            </div>
+                            <div class="tanda-item">
+                                <span id="v-t3-n" class="tanda-label">--</span>
+                                <span id="v-t3-v" class="tanda-value">0.00</span>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <p class="text-[12px] font-black uppercase tracking-widest">Registro</p>
-                            <p id="v-id" class="text-7xl font-black font-mono leading-none">#000</p>
-                        </div>
+                        <!-- Categoría en su lugar -->
+                        <div id="v-material" class="category-footer">--</div>
                     </div>
 
-                    <!-- Fila 2: Línea y Fecha (Con márgenes para no tocar) -->
-                    <div class="linea-fecha-box">
-                        <div class="uppercase">Línea: <span id="v-linea" class="text-2xl ml-2">--</span></div>
-                        <div class="uppercase">Fecha: <span id="v-fecha" class="ml-1">--</span> | <span id="v-hora" class="ml-1">--</span></div>
-                    </div>
-
-                    <!-- Fila 3: Tandas y Total -->
-                    <div class="flex justify-between items-end flex-1 pb-2">
-                        <div class="space-y-8">
-                            <div>
-                                <p class="text-[10px] font-black uppercase tracking-widest mb-3">Pesos Netos (kg)</p>
-                                <div class="flex gap-10">
-                                    <div><span id="v-t1-n" class="text-[11px] font-black block uppercase text-slate-500">--</span><span id="v-t1-v" class="text-3xl font-black italic">0.00</span></div>
-                                    <div><span id="v-t2-n" class="text-[11px] font-black block uppercase text-slate-500">--</span><span id="v-t2-v" class="text-3xl font-black italic">0.00</span></div>
-                                    <div><span id="v-t3-n" class="text-[11px] font-black block uppercase text-slate-500">--</span><span id="v-t3-v" class="text-3xl font-black italic">0.00</span></div>
-                                </div>
-                            </div>
-                            <!-- Categoría bien posicionada -->
-                            <div id="v-material" class="category-text">--</div>
-                        </div>
-                        
-                        <!-- Total ajustado -->
-                        <div class="total-box">
-                            <span class="text-[12px] font-black uppercase text-red-600 block mb-1">Total Paletizado</span>
+                    <!-- Total Paletizado -->
+                    <div class="total-section">
+                        <span class="total-label">Total Paletizado</span>
+                        <div class="flex flex-col items-end">
                             <span id="v-total-val" class="total-value">0.00</span>
                             <span class="total-unit">KG</span>
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-center border-t-2 border-black pt-4 text-[9px] font-black uppercase tracking-widest">
-                        <span>Tecnología de Control R7 Industrial</span>
-                        <span>Sello de Verificación BOCEL</span>
+                    <!-- Código QR (Alineado a la derecha sin tocar el total) -->
+                    <div class="qr-section">
+                        <div id="qrcode"></div>
+                        <p class="text-[12px] font-black mt-4 uppercase tracking-[0.2em] leading-tight text-center">Validación<br>Digital</p>
                     </div>
                 </div>
-                
-                <div class="qr-area">
-                    <div id="qrcode"></div>
-                    <p class="text-[11px] font-black text-center mt-6 uppercase tracking-widest leading-tight">Validación<br>Digital</p>
+
+                <!-- Footer del tique -->
+                <div class="flex justify-between items-center border-t-2 border-black pt-4 mt-4 text-[9px] font-black uppercase tracking-widest opacity-30">
+                    <span>Tecnología de Trazabilidad R7</span>
+                    <span>Planta Industrial BOCEL</span>
                 </div>
             </div>
 
-            <!-- BOTONES -->
-            <div class="mt-12 flex gap-5 no-print">
-                <button onclick="window.print()" class="flex-1 bg-black text-white py-5 rounded-[2rem] font-black uppercase text-xs tracking-widest shadow-xl hover:scale-[1.01] transition-transform">IMPRIMIR</button>
-                <button onclick="downloadImage()" class="flex-1 bg-indigo-600 text-white py-5 rounded-[2rem] font-black uppercase text-xs tracking-widest shadow-xl hover:scale-[1.01] transition-transform">GUARDAR IMAGEN</button>
+            <div class="mt-12 flex gap-6 no-print">
+                <button onclick="window.print()" class="flex-1 bg-black text-white py-6 rounded-[2rem] font-black uppercase text-xs tracking-widest shadow-xl hover:scale-[1.02] transition-transform">IMPRIMIR</button>
+                <button onclick="downloadImage()" class="flex-1 bg-indigo-600 text-white py-6 rounded-[2rem] font-black uppercase text-xs tracking-widest shadow-xl hover:scale-[1.02] transition-transform">GUARDAR IMAGEN</button>
             </div>
         </div>
     </div>
@@ -317,7 +387,7 @@
 
     <script>
         const categories = ['ESP', 'DESPERDICIO', 'MASA', 'HARINA CONTAMINADA', 'REPROCESO ESP', 'REPROCESO CÓDITO', 'REPROCESO DE FIDEO'];
-        let db = JSON.parse(localStorage.getItem('BOCEL_DB_FINAL_X')) || [];
+        let db = JSON.parse(localStorage.getItem('BOCEL_MASTER_DB_V5')) || [];
         
         const form = document.getElementById('entryForm');
         const searchBox = document.getElementById('searchBox');
@@ -328,7 +398,7 @@
         searchDate.valueAsDate = new Date();
 
         function sync() {
-            localStorage.setItem('BOCEL_DB_FINAL_X', JSON.stringify(db));
+            localStorage.setItem('BOCEL_MASTER_DB_V5', JSON.stringify(db));
             render();
         }
 
@@ -395,7 +465,7 @@
             form.reset();
         };
 
-        function deleteRecord(id) { if(confirm("¿Eliminar registro definitivamente?")) { db = db.filter(x => x.id !== id); sync(); } }
+        function deleteRecord(id) { if(confirm("¿Eliminar registro definitivamente de la base BOCEL?")) { db = db.filter(x => x.id !== id); sync(); } }
 
         function openModal(r) {
             document.getElementById('v-id').innerText = `#${String(r.id).padStart(3, '0')}`;
@@ -415,7 +485,7 @@
             qrContainer.innerHTML = '';
             const tandas = `${r.t1_n}:${r.t1_v},${r.t2_n}:${r.t2_v},${r.t3_n}:${r.t3_v}`;
             const encoded = btoa(unescape(encodeURIComponent(`${r.id}|${r.linea}|${r.total}|${r.fecha}|${r.hora}|${r.tipo}|${tandas}`)));
-            new QRCode(qrContainer, { text: `${window.location.origin}${window.location.pathname}?s=${encoded}`, width: 150, height: 150, colorDark: "#000000" });
+            new QRCode(qrContainer, { text: `${window.location.origin}${window.location.pathname}?s=${encoded}`, width: 160, height: 160, colorDark: "#000000" });
 
             setTimeout(() => {
                 const printable = document.getElementById('printable-area');
@@ -431,7 +501,7 @@
         async function downloadImage() {
             const canvas = await html2canvas(document.getElementById('ticket-capture'), { scale: 3, useCORS: true });
             const link = document.createElement('a');
-            link.download = `BOCEL_Tique_${document.getElementById('v-id').innerText}.png`;
+            link.download = `BOCEL_REGISTRO_${document.getElementById('v-id').innerText}.png`;
             link.href = canvas.toDataURL();
             link.click();
         }
@@ -457,7 +527,7 @@
                 list.innerHTML = '';
                 d[6].split(',').forEach(t => {
                     const [n, v] = t.split(':');
-                    list.innerHTML += `<div class="flex justify-between items-center py-4 border-b border-slate-700/50 last:border-0"><span class="font-bold text-xs text-slate-400 uppercase tracking-widest">Tanda ${n}</span><span class="font-black text-lg text-white font-mono">${v} KG</span></div>`;
+                    list.innerHTML += `<div class="flex justify-between items-center py-4 border-b border-slate-700/50 last:border-0"><span class="font-bold text-xs text-slate-400 uppercase tracking-widest">Tanda ${n}</span><span class="font-black text-xl text-white font-mono">${v} KG</span></div>`;
                 });
             } catch(e) { clearScanView(); }
         }
