@@ -19,12 +19,13 @@
             body { background: white; margin: 0; }
             @page { size: landscape; margin: 0; }
             #printable-area { display: flex !important; justify-content: center; align-items: center; height: 100vh; }
+            #report-printable { display: block !important; width: 100%; padding: 20px; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000 !important; border-color: #000 !important; }
         }
         
         .print-only { display: none; }
         
-        /* DISEÑO INDUSTRIAL REFORZADO - TEXTOS OSCUROS */
+        /* DISEÑO INDUSTRIAL REFORZADO */
         .ticket-bocel {
             width: 900px;
             height: 440px;
@@ -39,7 +40,6 @@
             text-rendering: optimizeLegibility;
         }
 
-        /* Cabecera */
         .header-grid {
             display: grid;
             grid-template-columns: 140px 1fr 200px;
@@ -62,15 +62,8 @@
 
         .header-right { text-align: right; }
         .header-right span { font-size: 11px; font-weight: 900; color: #000; text-transform: uppercase; }
-        .header-right p { 
-            font-size: 65px; 
-            font-weight: 950; 
-            line-height: 0.8; 
-            color: #000; 
-            margin-bottom: 10px; 
-        }
+        .header-right p { font-size: 65px; font-weight: 950; line-height: 0.8; color: #000; margin-bottom: 10px; }
 
-        /* Franja Horizontal (Línea y Fecha) */
         .info-bar {
             border-top: 3px solid #000;
             border-bottom: 3px solid #000;
@@ -84,21 +77,14 @@
             color: #000;
         }
 
-        /* Contenido del Cuerpo - AJUSTADO PARA ACERCAR QR */
         .content-grid {
             display: grid;
-            grid-template-columns: 1fr 240px 180px; /* Reducida la columna del centro para acercar el QR */
+            grid-template-columns: 1fr 240px 180px;
             flex: 1;
             margin-top: 5px;
         }
 
-        .col-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding-bottom: 10px;
-        }
-
+        .col-left { display: flex; flex-direction: column; justify-content: space-between; padding-bottom: 10px; }
         .tandas-section p { font-size: 11px; font-weight: 950; color: #000; text-transform: uppercase; margin-bottom: 12px; }
         .tandas-flex { display: flex; gap: 35px; }
         .tanda-item { display: flex; flex-direction: column; }
@@ -107,79 +93,33 @@
 
         .category-text { font-size: 34px; font-weight: 950; text-transform: uppercase; font-style: italic; margin-top: 15px; color: #000; }
 
-        /* Columna Central: Total */
         .col-center {
             display: flex;
             flex-direction: column;
             justify-content: flex-end; 
             align-items: flex-end;
             text-align: right;
-            padding-right: 15px; /* Reducido para acercar al QR */
+            padding-right: 15px;
             padding-bottom: 25px; 
         }
 
-        .total-label { 
-            font-size: 12px; 
-            font-weight: 950; 
-            color: #000; 
-            text-transform: uppercase; 
-            margin-bottom: 2px;
-            letter-spacing: 0.05em;
-        }
-        
-        .total-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
+        .total-label { font-size: 12px; font-weight: 950; color: #000; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.05em; }
+        .total-container { display: flex; flex-direction: column; align-items: flex-end; }
+        .total-val { font-size: 55px; font-weight: 950; font-style: italic; line-height: 1; letter-spacing: -0.02em; color: #000; }
+        .total-unit { font-size: 24px; font-weight: 950; font-style: italic; line-height: 1; margin-top: 2px; color: #000; }
 
-        .total-val { 
-            font-size: 55px; 
-            font-weight: 950; 
-            font-style: italic; 
-            line-height: 1; 
-            letter-spacing: -0.02em;
-            color: #000;
-        }
-
-        .total-unit { 
-            font-size: 24px; 
-            font-weight: 950; 
-            font-style: italic; 
-            line-height: 1;
-            margin-top: 2px;
-            color: #000;
-        }
-
-        /* Columna Derecha: QR - AJUSTADO PARA ACERCAR */
         .col-right {
             border-left: 2px dashed #000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-left: 15px; /* Reducido para estar más cerca del total */
+            padding-left: 15px;
         }
 
-        /* Contenedor del QR para asegurar que se vea completo al imprimir */
-        #qrcode {
-            background: white;
-            padding: 5px;
-            border: 1px solid #eee;
-        }
+        #qrcode { background: white; padding: 5px; border: 1px solid #eee; }
+        .qr-label { font-size: 11px; font-weight: 950; text-transform: uppercase; text-align: center; margin-top: 10px; line-height: 1.1; letter-spacing: 0.05em; color: #000; }
 
-        .qr-label { 
-            font-size: 11px; 
-            font-weight: 950; 
-            text-transform: uppercase; 
-            text-align: center; 
-            margin-top: 10px; 
-            line-height: 1.1; 
-            letter-spacing: 0.05em;
-            color: #000;
-        }
-
-        /* Footer */
         .footer-line {
             border-top: 2px solid #000;
             padding-top: 8px;
@@ -200,11 +140,23 @@
             padding: 20px;
             overflow-y: auto;
         }
+
+        /* Estilos Reporte de Todas */
+        .report-modal {
+            max-width: 1200px;
+            width: 95%;
+            max-height: 90vh;
+            background: white;
+            border-radius: 2rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>
 
-    <!-- VISTA ESCANEO MÓVIL (VISIBLE TRAS ESCANEO DE QR) -->
+    <!-- VISTA ESCANEO MÓVIL -->
     <div id="mobile-view" class="flex flex-col items-center">
         <div class="w-full max-w-md bg-slate-900 rounded-[3rem] text-white shadow-2xl overflow-hidden mt-4 border border-slate-800">
             <div class="p-10 text-center border-b border-slate-800">
@@ -239,7 +191,7 @@
         </div>
     </div>
 
-    <!-- PANEL PRINCIPAL DE GESTIÓN -->
+    <!-- PANEL PRINCIPAL -->
     <div id="main-content" class="max-w-[1400px] mx-auto py-8 px-6 no-print">
         <header class="flex flex-col md:flex-row justify-between items-center mb-10 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
             <div class="flex items-center gap-8">
@@ -250,16 +202,21 @@
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-2">Planta Industrial BOCEL</p>
                 </div>
             </div>
-            <div class="text-center md:text-right">
-                <p class="text-[11px] font-black text-indigo-600 uppercase mb-1 tracking-widest">Correlativo</p>
-                <p id="next-id-label" class="text-5xl font-black font-mono">#001</p>
+            <div class="flex items-center gap-6 mt-6 md:mt-0">
+                <button onclick="openReportModal()" class="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] shadow-lg shadow-indigo-200 hover:bg-black transition-all">
+                    Ver todas reportadas
+                </button>
+                <div class="text-right">
+                    <p class="text-[11px] font-black text-indigo-600 uppercase mb-1 tracking-widest">Correlativo</p>
+                    <p id="next-id-label" class="text-5xl font-black font-mono">#001</p>
+                </div>
             </div>
         </header>
 
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10" id="totalsGrid"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <!-- FORMULARIO DE REGISTRO -->
+            <!-- FORMULARIO -->
             <aside class="lg:col-span-4">
                 <div class="bg-white p-8 rounded-[3rem] shadow-sm border border-slate-200 sticky top-8">
                     <form id="entryForm" class="space-y-6">
@@ -295,7 +252,7 @@
                 </div>
             </aside>
 
-            <!-- TABLA DE HISTÓRICO -->
+            <!-- TABLA -->
             <main class="lg:col-span-8">
                 <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden">
                     <div class="p-6 bg-slate-50 flex justify-between items-center border-b border-slate-100">
@@ -320,7 +277,7 @@
         </div>
     </div>
 
-    <!-- MODAL DEL TIQUE INDUSTRIAL -->
+    <!-- MODAL TICKET -->
     <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-6 no-print">
         <div class="bg-white p-10 rounded-[4rem] max-w-6xl w-full shadow-2xl border-2 border-black">
             <div class="flex justify-between items-center mb-8">
@@ -328,7 +285,6 @@
                 <button onclick="closeModal()" class="text-4xl text-slate-300 hover:text-black transition-colors">&times;</button>
             </div>
 
-            <!-- TIQUE ACTUALIZADO -->
             <div id="ticket-capture" class="ticket-bocel mx-auto">
                 <div class="header-grid">
                     <img src="IMG_4612.PNG" alt="Logo BOCEL" class="h-16 w-auto object-contain" onerror="this.src='https://placehold.co/80x80?text=BOCEL'">
@@ -341,12 +297,10 @@
                         <p id="v-id">#000</p>
                     </div>
                 </div>
-
                 <div class="info-bar">
                     <div>LÍNEA: <span id="v-linea">--</span></div>
                     <div>FECHA: <span id="v-fecha">--</span> | <span id="v-hora">--</span></div>
                 </div>
-
                 <div class="content-grid">
                     <div class="col-left">
                         <div class="tandas-section">
@@ -368,7 +322,6 @@
                         </div>
                         <div id="v-material" class="category-text">--</div>
                     </div>
-
                     <div class="col-center">
                         <span class="total-label">Total Paletizado</span>
                         <div class="total-container">
@@ -376,13 +329,11 @@
                             <span class="total-unit">KG</span>
                         </div>
                     </div>
-
                     <div class="col-right">
                         <div id="qrcode"></div>
                         <p class="qr-label">ACCESO DIGITAL<br>VALIDACIÓN</p>
                     </div>
                 </div>
-
                 <div class="footer-line">
                     <span>Software de Gestión R7 Industrial</span>
                     <span>Verificado por Planta BOCEL</span>
@@ -396,7 +347,61 @@
         </div>
     </div>
 
+    <!-- MODAL REPORTE GLOBAL -->
+    <div id="report-modal" class="fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] hidden flex items-center justify-center p-4 no-print">
+        <div class="report-modal shadow-2xl">
+            <div class="p-8 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-black uppercase italic tracking-tighter">Reporte General de Pesaje</h2>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Resumen consolidado de todas las tarimas</p>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="window.print()" class="bg-black text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-all">
+                        <span>🖨️</span> Imprimir Reporte
+                    </button>
+                    <button onclick="closeReportModal()" class="bg-slate-200 text-slate-600 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all text-2xl font-bold">&times;</button>
+                </div>
+            </div>
+            
+            <div id="report-container" class="flex-1 overflow-y-auto p-10 bg-white">
+                <div class="grid grid-cols-3 gap-6 mb-10">
+                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-1 tracking-widest">Total Registros</p>
+                        <p id="rep-count" class="text-4xl font-black">0</p>
+                    </div>
+                    <div class="bg-indigo-50 p-6 rounded-3xl border border-indigo-100">
+                        <p class="text-[10px] font-black text-indigo-400 uppercase mb-1 tracking-widest">Peso Bruto Total</p>
+                        <p id="rep-weight" class="text-4xl font-black text-indigo-600">0.00 <span class="text-sm">KG</span></p>
+                    </div>
+                    <div class="bg-slate-900 p-6 rounded-3xl text-white">
+                        <p class="text-[10px] font-black text-slate-500 uppercase mb-1 tracking-widest">Fecha Reporte</p>
+                        <p class="text-xl font-black uppercase" id="rep-date">--</p>
+                    </div>
+                </div>
+
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b-2 border-slate-900 pb-4">
+                            <th class="py-4">ID</th>
+                            <th class="py-4">Fecha/Hora</th>
+                            <th class="py-4">Línea</th>
+                            <th class="py-4">Categoría</th>
+                            <th class="py-4 text-right">Peso Total (KG)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportTableBody" class="divide-y divide-slate-100">
+                        <!-- Datos dinámicos -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁREA DE IMPRESIÓN DINÁMICA -->
     <div id="printable-area" class="print-only"></div>
+    <div id="report-printable" class="print-only">
+        <!-- Se clona el reporte aquí para impresión -->
+    </div>
 
     <script>
         const categories = ['ESP', 'DESPERDICIO', 'MASA', 'HARINA CONTAMINADA', 'REPROCESO ESP', 'REPROCESO CÓDITO', 'REPROCESO DE FIDEO'];
@@ -498,7 +503,6 @@
             qrContainer.innerHTML = '';
             const tandas = `${r.t1_n}:${r.t1_v},${r.t2_n}:${r.t2_v},${r.t3_n}:${r.t3_v}`;
             const encoded = btoa(unescape(encodeURIComponent(`${r.id}|${r.linea}|${r.total}|${r.fecha}|${r.hora}|${r.tipo}|${tandas}`)));
-            // Generar el QR con un poco de margen interno para asegurar legibilidad
             new QRCode(qrContainer, { text: `${window.location.origin}${window.location.pathname}?s=${encoded}`, width: 130, height: 130, colorDark: "#000000" });
 
             setTimeout(() => {
@@ -509,6 +513,44 @@
             document.getElementById('modal').classList.remove('hidden');
         }
 
+        // --- FUNCIONES REPORTE GLOBAL ---
+        function openReportModal() {
+            const container = document.getElementById('reportTableBody');
+            const totalWeightLabel = document.getElementById('rep-weight');
+            const totalCountLabel = document.getElementById('rep-count');
+            const reportDateLabel = document.getElementById('rep-date');
+            
+            container.innerHTML = '';
+            let totalWeight = 0;
+            
+            db.forEach(r => {
+                totalWeight += parseFloat(r.total);
+                const tr = document.createElement('tr');
+                tr.className = "text-xs font-bold text-slate-700";
+                tr.innerHTML = `
+                    <td class="py-4 font-mono text-indigo-600">#${String(r.id).padStart(3, '0')}</td>
+                    <td class="py-4 text-slate-400 font-mono">${r.fecha} <span class="ml-1 opacity-50">${r.hora}</span></td>
+                    <td class="py-4 uppercase tracking-tighter">${r.linea}</td>
+                    <td class="py-4"><span class="bg-slate-100 px-2 py-1 rounded text-[10px] uppercase">${r.tipo}</span></td>
+                    <td class="py-4 text-right font-black text-slate-900">${r.total} KG</td>
+                `;
+                container.appendChild(tr);
+            });
+
+            totalWeightLabel.innerHTML = `${totalWeight.toFixed(2)} <span class="text-sm">KG</span>`;
+            totalCountLabel.innerText = db.length;
+            reportDateLabel.innerText = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            // Preparar para impresión
+            const printContent = document.getElementById('report-container').cloneNode(true);
+            const reportPrintable = document.getElementById('report-printable');
+            reportPrintable.innerHTML = `<h1 style="font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase;">Reporte Global de Producción BOCEL</h1>`;
+            reportPrintable.appendChild(printContent);
+
+            document.getElementById('report-modal').classList.remove('hidden');
+        }
+
+        function closeReportModal() { document.getElementById('report-modal').classList.add('hidden'); }
         function viewRecord(id) { const f = db.find(x => x.id === id); if(f) openModal(f); }
         function closeModal() { document.getElementById('modal').classList.add('hidden'); }
 
