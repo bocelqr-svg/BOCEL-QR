@@ -3,125 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R7 - Asistente Inteligente Pro</title>
+    <title>R7 - Inteligencia Artificial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        
-        .typing-dot { animation: typing 1.4s infinite; }
-        @keyframes typing { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
-        
-        /* Estilos para respuestas ultra organizadas */
-        .response-card { 
-            background: white; 
-            border: 1px solid #e2e8f0; 
-            border-radius: 1.5rem; 
-            padding: 1.5rem; 
-            margin-bottom: 1rem;
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        .chat-bubble-ai {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            line-height: 1.6;
+            color: #1e293b;
         }
-        .response-step { 
-            border-left: 4px solid #4f46e5; 
-            background: #f8fafc; 
-            padding: 1rem; 
-            margin: 1rem 0; 
-            border-radius: 0 1rem 1rem 0;
-            font-weight: 500;
+        .ai-step {
+            border-left: 4px solid #4f46e5;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            background: #f1f5f9;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-radius: 0 0.75rem 0.75rem 0;
         }
-        .response-header { 
-            color: #4338ca; 
-            font-weight: 800; 
-            font-size: 1.1rem; 
-            margin-top: 1.5rem; 
-            margin-bottom: 0.5rem;
+        .ai-title {
+            color: #4338ca;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-top: 1rem;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
+            letter-spacing: 0.05em;
         }
-        .result-highlight {
+        .ai-result {
             background: #eef2ff;
-            border: 2px dashed #4f46e5;
-            padding: 1rem;
-            border-radius: 1rem;
+            border: 2px solid #4f46e5;
             color: #312e81;
             font-weight: 800;
-            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 1rem;
             text-align: center;
+            margin-bottom: 1.5rem;
         }
+        .typing-dot { animation: typing 1.4s infinite; }
+        @keyframes typing { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 overflow-hidden h-screen flex flex-col items-center">
+<body class="h-screen flex flex-col items-center">
 
-    <!-- Pantalla de Selección -->
-    <div id="home-screen" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-6 transition-all duration-500">
+    <!-- Pantalla de Selección R7 -->
+    <div id="home-screen" class="fixed inset-0 bg-slate-900 z-50 flex flex-col items-center justify-center p-6 transition-all duration-500">
         <div class="max-w-md w-full text-center">
-            <div class="inline-block p-4 bg-indigo-600 rounded-3xl shadow-2xl shadow-indigo-500/40 mb-6">
+            <div class="inline-block p-4 bg-indigo-600 rounded-3xl shadow-2xl mb-6">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
             </div>
             <h1 class="text-6xl font-black text-white italic tracking-tighter mb-2">R7</h1>
-            <p class="text-slate-400 mb-10 font-medium">Asistente Inteligente de Alta Precisión</p>
+            <p class="text-slate-400 mb-10 font-medium">Asistente Potenciado por Gemini</p>
 
-            <div class="space-y-4">
-                <button onclick="setMode('admin')" class="w-full p-5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-3xl flex items-center gap-4 transition-all group text-left">
-                    <div class="p-3 bg-indigo-500/10 rounded-2xl text-indigo-400"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
-                    <div><h3 class="text-white font-bold">Administrar Deudas</h3><p class="text-slate-400 text-xs">Organización financiera R7.</p></div>
+            <div class="grid gap-4 w-full">
+                <button onclick="startApp('tasks')" class="p-6 bg-indigo-600 hover:bg-indigo-500 rounded-3xl text-left shadow-xl transition-all group">
+                    <div class="flex items-center justify-between mb-2">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
+                        <svg class="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </div>
+                    <h3 class="text-white font-bold text-xl uppercase italic">LLENAR EXÁMENES Y TAREAS</h3>
+                    <p class="text-indigo-100 text-sm opacity-80">Resolución paso a paso con fotos.</p>
                 </button>
-                <button onclick="setMode('tasks')" class="w-full p-6 bg-indigo-600 hover:bg-indigo-500 border border-indigo-400 rounded-3xl flex items-center gap-4 transition-all shadow-xl shadow-indigo-900/40 group text-left">
-                    <div class="p-3 bg-white/10 rounded-2xl text-white"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg></div>
-                    <div><h3 class="text-white font-extrabold text-xl uppercase italic">Llenar Exámenes y Tareas</h3><p class="text-indigo-100 text-xs opacity-80">R7 resuelve paso a paso.</p></div>
+
+                <button onclick="startApp('admin')" class="p-5 bg-slate-800 hover:bg-slate-700 rounded-3xl text-left transition-all">
+                    <h3 class="text-white font-bold">Administración de Deudas</h3>
+                    <p class="text-slate-400 text-xs">Organiza tus finanzas con R7.</p>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Contenedor Principal -->
-    <div class="flex flex-col w-full max-w-2xl h-screen bg-white shadow-2xl border-x border-slate-200 relative">
-        
-        <!-- Header -->
-        <header class="p-4 border-b flex items-center justify-between bg-white sticky top-0 z-10">
-            <button onclick="backHome()" class="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
+    <!-- Interfaz de Chat -->
+    <div class="flex flex-col w-full max-w-2xl h-screen bg-white shadow-2xl relative overflow-hidden">
+        <header class="p-4 border-b flex items-center justify-between bg-white z-10">
+            <button onclick="goHome()" class="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
             <div class="text-center">
-                <span class="text-2xl font-black italic tracking-tighter block leading-none">R7</span>
-                <span id="mode-indicator" class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest"></span>
+                <span class="text-2xl font-black italic text-slate-900 tracking-tighter">R7</span>
+                <span id="mode-label" class="block text-[9px] font-bold text-indigo-600 uppercase tracking-widest"></span>
             </div>
-            <div class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-            </div>
+            <div class="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 font-bold">R7</div>
         </header>
 
-        <!-- Chat -->
-        <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/30 custom-scrollbar flex flex-col">
-            <div id="welcome-message" class="my-auto text-center space-y-4 py-10">
-                <div class="w-20 h-20 bg-white rounded-[2rem] shadow-xl mx-auto flex items-center justify-center text-indigo-600 border border-slate-100 mb-4">
-                    <svg id="welcome-icon" class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg>
+        <div id="chat-box" class="flex-1 overflow-y-auto p-6 space-y-6 flex flex-col scroll-smooth">
+            <!-- Mensaje de Inicio -->
+            <div id="welcome-msg" class="my-auto text-center py-10">
+                <div class="w-20 h-20 bg-indigo-600 rounded-3xl shadow-xl mx-auto flex items-center justify-center text-white mb-6">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
                 </div>
-                <h2 class="text-2xl font-bold text-slate-800 italic">Hola, soy R7</h2>
-                <p id="welcome-text" class="text-slate-500 text-sm max-w-xs mx-auto leading-relaxed font-medium"></p>
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Hola, soy R7</h2>
+                <p class="text-slate-500 text-sm max-w-xs mx-auto">Sube una foto o escribe tu pregunta. Te responderé de forma organizada.</p>
             </div>
         </div>
 
-        <!-- Área de Entrada -->
-        <div class="p-4 bg-white border-t space-y-4">
-            <div id="image-preview-container" class="hidden flex items-center gap-3 p-3 bg-indigo-50 rounded-2xl border border-indigo-100">
-                <div class="relative h-16 w-16">
-                    <img id="image-preview" src="" class="h-full w-full object-cover rounded-xl border border-white shadow-sm" />
-                    <button onclick="clearImage()" class="absolute -top-2 -right-2 bg-slate-900 text-white rounded-full p-1 shadow-md"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
-                </div>
-                <div class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Documento listo para R7</div>
+        <!-- Input Area -->
+        <div class="p-4 bg-white border-t">
+            <div id="preview-area" class="hidden mb-4 p-2 bg-slate-50 rounded-2xl border flex items-center gap-3">
+                <img id="img-thumb" class="h-16 w-16 object-cover rounded-xl border-2 border-white shadow-sm" />
+                <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Foto lista</span>
+                <button onclick="clearImg()" class="ml-auto p-2 text-red-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
             </div>
 
-            <div class="flex items-center gap-3">
-                <button onclick="document.getElementById('file-input').click()" class="p-4 bg-slate-100 text-slate-500 rounded-2xl hover:bg-indigo-100 hover:text-indigo-600 transition-all">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            <div class="flex items-center gap-2">
+                <button onclick="document.getElementById('file').click()" class="p-4 bg-slate-100 text-slate-500 rounded-2xl hover:bg-indigo-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /></svg>
                 </button>
-                <input type="file" id="file-input" hidden accept="image/*" onchange="handleFile(event)">
-                <input type="text" id="user-input" onkeypress="if(event.key==='Enter') sendMessage()" placeholder="Escribe a R7..." class="flex-1 bg-slate-100 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl px-5 py-4 text-sm outline-none transition-all font-medium text-slate-800">
-                <button onclick="sendMessage()" id="send-btn" class="p-4 bg-slate-900 text-white rounded-2xl hover:bg-black transition-all shadow-xl">
+                <input type="file" id="file" hidden accept="image/*" onchange="previewFile(event)">
+                <input type="text" id="msg-input" placeholder="Escribe a R7..." onkeypress="if(event.key==='Enter') send()" class="flex-1 bg-slate-100 rounded-2xl px-6 py-4 text-sm outline-none border-2 border-transparent focus:border-indigo-500 transition-all font-medium">
+                <button onclick="send()" class="p-4 bg-slate-900 text-white rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
                 </button>
             </div>
@@ -129,185 +123,129 @@
     </div>
 
     <script>
-        const apiKey = ""; // Se proporciona automáticamente en ejecución
-        let currentMode = null;
-        let base64Image = null;
+        const apiKey = ""; // API Key de Gemini
+        let mode = 'tasks';
+        let base64 = null;
 
-        const MODES = {
-            admin: {
-                label: 'Gestión Financiera',
-                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />',
-                welcome: 'Sube fotos de tus deudas para que R7 cree un plan de pagos organizado.',
-                system: 'Eres R7, el experto financiero. RESPUESTAS: Primero da un resumen claro. Usa bloques separados para cada paso de pago. Nunca amontones el texto. Usa lenguaje profesional y directo.'
-            },
-            tasks: {
-                label: 'Tareas y Exámenes',
-                icon: '<path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />',
-                welcome: 'Sube una foto de tu examen. R7 resolverá cada punto con explicaciones detalladas.',
-                system: 'Eres R7, asistente académico. PARA EXÁMENES: 1. Resultado final destacado. 2. Procedimiento paso a paso dividido en bloques independientes. No escribas párrafos largos, usa listas y bloques claros.'
-            }
-        };
-
-        function setMode(mode) {
-            currentMode = mode;
+        function startApp(m) {
+            mode = m;
             document.getElementById('home-screen').classList.add('opacity-0', 'pointer-events-none');
-            document.getElementById('mode-indicator').innerText = MODES[mode].label;
-            document.getElementById('welcome-icon').innerHTML = MODES[mode].icon;
-            document.getElementById('welcome-text').innerText = MODES[mode].welcome;
+            document.getElementById('mode-label').innerText = m === 'tasks' ? 'Tareas y Exámenes' : 'Administración';
         }
 
-        function backHome() {
+        function goHome() {
             document.getElementById('home-screen').classList.remove('opacity-0', 'pointer-events-none');
         }
 
-        function handleFile(e) {
+        function previewFile(e) {
             const file = e.target.files[0];
-            if (!file) return;
+            if(!file) return;
             const reader = new FileReader();
-            reader.onload = function(event) {
-                base64Image = event.target.result;
-                document.getElementById('image-preview').src = base64Image;
-                document.getElementById('image-preview-container').classList.remove('hidden');
+            reader.onload = (ev) => {
+                base64 = ev.target.result;
+                document.getElementById('img-thumb').src = base64;
+                document.getElementById('preview-area').classList.remove('hidden');
             };
             reader.readAsDataURL(file);
         }
 
-        function clearImage() {
-            base64Image = null;
-            document.getElementById('image-preview-container').classList.add('hidden');
-            document.getElementById('file-input').value = "";
+        function clearImg() {
+            base64 = null;
+            document.getElementById('preview-area').classList.add('hidden');
+            document.getElementById('file').value = "";
         }
 
-        function formatResponse(text) {
+        function parseAI(text) {
             const lines = text.split('\n');
-            let html = '<div class="space-y-4">';
-            let inList = false;
-
+            let html = '';
             lines.forEach(line => {
-                const trimmed = line.trim();
-                if (!trimmed) return;
-
-                // Resultado final destacado
-                if (trimmed.toLowerCase().includes('resultado final') || trimmed.startsWith('**')) {
-                    html += `<div class="result-highlight">${trimmed.replace(/\*\*/g, '')}</div>`;
-                }
-                // Títulos de sección
-                else if (trimmed.startsWith('#') || (trimmed.length < 50 && trimmed.endsWith(':'))) {
-                    html += `<div class="response-header">${trimmed.replace(/#/g, '')}</div>`;
-                }
-                // Pasos numerados o items
-                else if (/^\d+\./.test(trimmed) || trimmed.startsWith('-') || trimmed.startsWith('*')) {
-                    html += `<div class="response-step">${trimmed.replace(/[-*]/g, '')}</div>`;
-                }
-                // Texto normal
-                else {
-                    html += `<p class="leading-relaxed text-slate-700">${trimmed}</p>`;
+                const l = line.trim();
+                if(!l) return;
+                
+                if(l.includes('Resultado') || l.includes('RESPUESTA') || l.startsWith('**')) {
+                    html += `<div class="ai-result">${l.replace(/\*\*/g, '')}</div>`;
+                } else if(l.startsWith('#') || (l.length < 40 && l.endsWith(':'))) {
+                    html += `<div class="ai-title">${l.replace(/#/g, '')}</div>`;
+                } else if(/^\d+\./.test(l) || l.startsWith('-')) {
+                    html += `<div class="ai-step">${l}</div>`;
+                } else {
+                    html += `<p class="mb-3">${l}</p>`;
                 }
             });
-
-            html += '</div>';
             return html;
         }
 
-        async function fetchWithRetry(url, options, retries = 5, backoff = 1000) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.ok) return await response.json();
-                    if (response.status === 429) throw new Error('Rate limit');
-                } catch (err) {
-                    if (i === retries - 1) throw err;
-                    await new Promise(resolve => setTimeout(resolve, backoff));
-                    backoff *= 2;
-                }
-            }
-        }
+        async function send() {
+            const input = document.getElementById('msg-input');
+            const chat = document.getElementById('chat-box');
+            const val = input.value.trim();
+            const img = base64;
 
-        async function sendMessage() {
-            const input = document.getElementById('user-input');
-            const container = document.getElementById('chat-container');
-            const text = input.value.trim();
-            const currentImg = base64Image;
-
-            if (!text && !currentImg) return;
-
-            const welcome = document.getElementById('welcome-message');
-            if (welcome) welcome.style.display = 'none';
+            if(!val && !img) return;
+            if(document.getElementById('welcome-msg')) document.getElementById('welcome-msg').remove();
 
             // Mensaje usuario
-            const userMsg = document.createElement('div');
-            userMsg.className = 'flex justify-end animate-in fade-in slide-in-from-bottom-2 mb-4';
-            userMsg.innerHTML = `
+            const uDiv = document.createElement('div');
+            uDiv.className = 'flex justify-end mb-4 animate-in fade-in';
+            uDiv.innerHTML = `
                 <div class="max-w-[85%] space-y-2">
-                    ${currentImg ? `<img src="${currentImg}" class="rounded-2xl w-full border-4 border-white shadow-lg" />` : ''}
-                    <div class="bg-indigo-600 text-white p-4 rounded-[1.5rem] rounded-tr-none text-sm font-medium">${text}</div>
+                    ${img ? `<img src="${img}" class="rounded-2xl w-full border-4 border-white shadow-lg">` : ''}
+                    <div class="bg-indigo-600 text-white p-4 rounded-3xl rounded-tr-none text-sm font-semibold">${val}</div>
                 </div>
             `;
-            container.appendChild(userMsg);
+            chat.appendChild(uDiv);
             input.value = '';
-            clearImage();
-            container.scrollTop = container.scrollHeight;
+            clearImg();
+            chat.scrollTop = chat.scrollHeight;
 
             // Loading
-            const loadingId = 'loading-' + Date.now();
-            const loadingMsg = document.createElement('div');
-            loadingMsg.id = loadingId;
-            loadingMsg.className = 'flex justify-start mb-4';
-            loadingMsg.innerHTML = `
-                <div class="bg-white border border-slate-200 p-4 rounded-[1.5rem] rounded-tl-none flex items-center gap-3 shadow-sm">
+            const lid = 'l-' + Date.now();
+            const lDiv = document.createElement('div');
+            lDiv.id = lid;
+            lDiv.className = 'flex justify-start mb-4';
+            lDiv.innerHTML = `
+                <div class="bg-white border p-4 rounded-3xl rounded-tl-none flex items-center gap-3 shadow-sm">
                     <div class="flex gap-1">
                         <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot"></span>
                         <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot" style="animation-delay: 0.2s"></span>
                         <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot" style="animation-delay: 0.4s"></span>
                     </div>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">R7 analizando...</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">R7 ANALIZANDO...</span>
                 </div>
             `;
-            container.appendChild(loadingMsg);
-            container.scrollTop = container.scrollHeight;
+            chat.appendChild(lDiv);
+            chat.scrollTop = chat.scrollHeight;
 
             try {
-                const parts = [{ text: text || "Resuelve esta tarea paso a paso." }];
-                if (currentImg) {
-                    parts.push({
-                        inlineData: {
-                            mimeType: "image/png",
-                            data: currentImg.split(',')[1]
-                        }
-                    });
-                }
+                const parts = [{ text: val || "Resuelve este ejercicio paso a paso." }];
+                if(img) parts.push({ inlineData: { mimeType: "image/png", data: img.split(',')[1] } });
 
-                const result = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                const sys = mode === 'tasks' 
+                    ? "Eres R7, asistente de estudio. Responde MUY ORGANIZADO. Usa títulos, pasos numerados y deja mucho espacio. El resultado final debe ser lo primero y estar muy resaltado."
+                    : "Eres R7, experto financiero. Da respuestas claras, directas y divididas en pasos lógicos.";
+
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{ parts }],
-                        systemInstruction: { parts: [{ text: MODES[currentMode].system }] }
+                        systemInstruction: { parts: [{ text: sys }] }
                     })
                 });
 
-                const aiText = result.candidates[0].content.parts[0].text;
-                document.getElementById(loadingId).remove();
+                const data = await res.json();
+                const rawText = data.candidates[0].content.parts[0].text;
+                
+                document.getElementById(lid).remove();
 
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'flex justify-start animate-in fade-in slide-in-from-bottom-2 mb-4';
-                aiMsg.innerHTML = `
-                    <div class="max-w-[95%] w-full">
-                        <div class="response-card">
-                            ${formatResponse(aiText)}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(aiMsg);
-                container.scrollTop = container.scrollHeight;
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'flex justify-start mb-6 animate-in fade-in';
+                aiDiv.innerHTML = `<div class="chat-bubble-ai w-full max-w-[95%]">${parseAI(rawText)}</div>`;
+                chat.appendChild(aiDiv);
+                chat.scrollTop = chat.scrollHeight;
 
-            } catch (error) {
-                if (document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-                const errorMsg = document.createElement('div');
-                errorMsg.className = 'text-center text-[10px] font-bold text-red-500 bg-red-50 p-2 rounded-xl mb-4 uppercase tracking-widest';
-                errorMsg.innerText = "Error de conexión con R7. Reintentando automáticamente...";
-                container.appendChild(errorMsg);
-                console.error(error);
+            } catch (e) {
+                document.getElementById(lid).innerHTML = `<div class="text-xs font-bold text-red-500 p-2">ERROR DE CONEXIÓN. REINTENTA.</div>`;
             }
         }
     </script>
