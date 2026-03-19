@@ -3,36 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Planificación Financiera</title>
+<title>Planificación Completa</title>
 
 <style>
 body{
     font-family: Arial;
-    background: #0f172a;
-    color: white;
-    padding: 20px;
+    background:#0f172a;
+    color:white;
+    padding:20px;
 }
 h1{
     text-align:center;
 }
-.container{
-    max-width: 900px;
-    margin: auto;
+.section{
+    margin-top:30px;
 }
 .card{
     background:#1e293b;
     padding:15px;
-    margin:15px 0;
     border-radius:10px;
+    margin-top:10px;
 }
 input{
-    width:80px;
+    width:90px;
+    margin:5px;
     padding:5px;
-    border-radius:5px;
-    border:none;
 }
 button{
-    padding:6px 10px;
+    padding:5px 10px;
     border:none;
     border-radius:5px;
     background:#22c55e;
@@ -41,119 +39,171 @@ button{
 }
 .done{
     text-decoration: line-through;
-    opacity:0.6;
+    opacity:0.5;
 }
 .total{
-    font-size:20px;
     color:#22c55e;
+    font-size:18px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>💰 Mi Planificación</h1>
+<h1>💰 PLANIFICACIÓN COMPLETA</h1>
 
-<div class="container">
+<!-- SIN HORAS EXTRAS -->
+<div class="section">
+<h2>🔴 Sin horas extras</h2>
 
 <div class="card">
-<h2>Día 15</h2>
+<h3>Día 15 (Ingreso: <input id="i1" value="15000">)</h3>
 
-<div>
-<input value="3400" id="c1"> Charly 
-<button onclick="toggle(this)">✔</button>
-</div>
+<input id="a1" value="3400"> Charly <button onclick="t(this)">✔</button><br>
+<input id="a2" value="1750"> Impuesto <button onclick="t(this)">✔</button><br>
+<input id="a3" value="2100"> UNI <button onclick="t(this)">✔</button><br>
+<input id="a4" value="2400"> Credima <button onclick="t(this)">✔</button><br>
 
-<div>
-<input value="1750" id="c2"> Impuesto 
-<button onclick="toggle(this)">✔</button>
-</div>
-
-<div>
-<input value="2100" id="c3"> UNI 
-<button onclick="toggle(this)">✔</button>
-</div>
-
-<div>
-<input value="2400" id="c4"> Credima 
-<button onclick="toggle(this)">✔</button>
-</div>
-
-<br>
-<button onclick="calcular()">Calcular</button>
-<p class="total" id="total15"></p>
-
+<button onclick="calc1()">Calcular</button>
+<p class="total" id="r1"></p>
 </div>
 
 <div class="card">
-<h2>Día 30</h2>
+<h3>Día 30 (Ingreso: <input id="i2" value="15000">)</h3>
 
-<div>
-<input value="3400" id="c5"> Charly 
-<button onclick="toggle(this)">✔</button>
+<input id="b1" value="3400"> Charly <button onclick="t(this)">✔</button><br>
+<input id="b2" value="1750"> Impuesto <button onclick="t(this)">✔</button><br>
+<input id="b3" value="3500"> Banco <button onclick="t(this)">✔</button><br>
+<input id="b4" value="4000"> Tarjeta <button onclick="t(this)">✔</button><br>
+
+<button onclick="calc2()">Calcular</button>
+<p class="total" id="r2"></p>
+</div>
 </div>
 
-<div>
-<input value="1750" id="c6"> Impuesto 
-<button onclick="toggle(this)">✔</button>
-</div>
+<!-- CON HORAS EXTRAS -->
+<div class="section">
+<h2>🟢 Con horas extras</h2>
 
-<div>
-<input value="3500" id="c7"> Banco 
-<button onclick="toggle(this)">✔</button>
-</div>
+<div class="card">
+<h3>Día 15 (Ingreso: <input id="i3" value="23000">)</h3>
 
-<div>
-<input value="4000" id="c8"> Tarjeta 
-<button onclick="toggle(this)">✔</button>
-</div>
+<input id="c1" value="3400"> Charly <button onclick="t(this)">✔</button><br>
+<input id="c2" value="1750"> Impuesto <button onclick="t(this)">✔</button><br>
+<input id="c3" value="2100"> UNI <button onclick="t(this)">✔</button><br>
+<input id="c4" value="2400"> Credima <button onclick="t(this)">✔</button><br>
 
-<br>
-<button onclick="calcular()">Calcular</button>
-<p class="total" id="total30"></p>
-
+<button onclick="calc3()">Calcular</button>
+<p class="total" id="r3"></p>
 </div>
 
 <div class="card">
-<h2>💎 Ahorro</h2>
-<input id="ahorro15" value="8000"> Día 15<br><br>
-<input id="ahorro30" value="6000"> Día 30<br><br>
+<h3>Día 30 (Ingreso: <input id="i4" value="23000">)</h3>
 
-<button onclick="ahorro()">Calcular Ahorro</button>
-<p class="total" id="totalAhorro"></p>
+<input id="d1" value="3400"> Charly <button onclick="t(this)">✔</button><br>
+<input id="d2" value="1750"> Impuesto <button onclick="t(this)">✔</button><br>
+<input id="d3" value="3500"> Banco <button onclick="t(this)">✔</button><br>
+<input id="d4" value="4000"> Tarjeta <button onclick="t(this)">✔</button><br>
+
+<button onclick="calc4()">Calcular</button>
+<p class="total" id="r4"></p>
+</div>
 </div>
 
+<!-- SIN CHARLY -->
+<div class="section">
+<h2>🟡 Sin pagar a Charly</h2>
+
+<div class="card">
+<h3>Día 15</h3>
+
+<input id="e1" value="1750"> Impuesto <button onclick="t(this)">✔</button><br>
+<input id="e2" value="2100"> UNI <button onclick="t(this)">✔</button><br>
+<input id="e3" value="2400"> Credima <button onclick="t(this)">✔</button><br>
+
+<button onclick="calc5()">Calcular</button>
+<p class="total" id="r5"></p>
+</div>
+
+<div class="card">
+<h3>Día 30</h3>
+
+<input id="f1" value="1750"> Impuesto <button onclick="t(this)">✔</button><br>
+<input id="f2" value="3500"> Banco <button onclick="t(this)">✔</button><br>
+<input id="f3" value="4000"> Tarjeta <button onclick="t(this)">✔</button><br>
+
+<button onclick="calc6()">Calcular</button>
+<p class="total" id="r6"></p>
+</div>
+</div>
+
+<!-- BONO -->
+<div class="section">
+<h2>💎 Bono de Abril</h2>
+
+<div class="card">
+
+Ingreso: <input id="bono" value="46000"><br><br>
+
+<input id="g1" value="35000"> Carme<br>
+<input id="g2" value="2000"> Perfume<br>
+<input id="g3" value="1500"> Perfume<br>
+
+<button onclick="calcBono()">Calcular</button>
+<p class="total" id="rB"></p>
+
+</div>
+</div>
+
+<!-- AHORRO -->
+<div class="section">
+<h2>🚀 Plan de Ahorro</h2>
+
+<div class="card">
+
+Meta: 100,000<br><br>
+
+<input id="ah1" value="8000"> Día 15<br>
+<input id="ah2" value="6000"> Día 30<br><br>
+
+<button onclick="calcAhorro()">Calcular</button>
+<p class="total" id="rA"></p>
+
+</div>
 </div>
 
 <script>
-function toggle(btn){
-    let div = btn.parentElement;
-    div.classList.toggle("done");
+function t(btn){
+    btn.parentElement.classList.toggle("done");
 }
 
-function calcular(){
-    let ingreso = 15000;
-
-    let total15 = ingreso -
-    c1.value - c2.value - c3.value - c4.value;
-
-    let total30 = ingreso -
-    c5.value - c6.value - c7.value - c8.value;
-
-    document.getElementById("total15").innerText =
-    "Disponible: " + total15;
-
-    document.getElementById("total30").innerText =
-    "Disponible: " + total30;
+function calc1(){
+r1.innerText="Disponible: "+(i1.value-a1.value-a2.value-a3.value-a4.value);
+}
+function calc2(){
+r2.innerText="Disponible: "+(i2.value-b1.value-b2.value-b3.value-b4.value);
+}
+function calc3(){
+r3.innerText="Disponible: "+(i3.value-c1.value-c2.value-c3.value-c4.value);
+}
+function calc4(){
+r4.innerText="Disponible: "+(i4.value-d1.value-d2.value-d3.value-d4.value);
+}
+function calc5(){
+r5.innerText="Disponible: "+(15000-e1.value-e2.value-e3.value);
+}
+function calc6(){
+r6.innerText="Disponible: "+(15000-f1.value-f2.value-f3.value);
 }
 
-function ahorro(){
-    let total =
-    parseInt(ahorro15.value) +
-    parseInt(ahorro30.value);
+function calcBono(){
+let res=bono.value-g1.value-g2.value-g3.value;
+rB.innerText="Disponible: "+res;
+}
 
-    document.getElementById("totalAhorro").innerText =
-    "Ahorro mensual: " + total;
+function calcAhorro(){
+let total=parseInt(ah1.value)+parseInt(ah2.value);
+rA.innerText="Ahorro mensual: "+total;
 }
 </script>
 
