@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R7 - Asistente Inteligente</title>
+    <title>R7 - Asistente Inteligente Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -11,15 +11,51 @@
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        
         .typing-dot { animation: typing 1.4s infinite; }
         @keyframes typing { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
-        .response-step { border-left: 4px solid #4f46e5; background: #f8fafc; padding: 12px; margin: 12px 0; border-radius: 0 12px 12px 0; }
-        .response-title { color: #4338ca; font-weight: 800; font-size: 1.1rem; margin-top: 1.5rem; }
+        
+        /* Estilos para respuestas ultra organizadas */
+        .response-card { 
+            background: white; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 1.5rem; 
+            padding: 1.5rem; 
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .response-step { 
+            border-left: 4px solid #4f46e5; 
+            background: #f8fafc; 
+            padding: 1rem; 
+            margin: 1rem 0; 
+            border-radius: 0 1rem 1rem 0;
+            font-weight: 500;
+        }
+        .response-header { 
+            color: #4338ca; 
+            font-weight: 800; 
+            font-size: 1.1rem; 
+            margin-top: 1.5rem; 
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        .result-highlight {
+            background: #eef2ff;
+            border: 2px dashed #4f46e5;
+            padding: 1rem;
+            border-radius: 1rem;
+            color: #312e81;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 overflow-hidden h-screen flex flex-col items-center">
 
-    <!-- Pantalla de Inicio / Selección de Modo -->
+    <!-- Pantalla de Selección -->
     <div id="home-screen" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-6 transition-all duration-500">
         <div class="max-w-md w-full text-center">
             <div class="inline-block p-4 bg-indigo-600 rounded-3xl shadow-2xl shadow-indigo-500/40 mb-6">
@@ -28,31 +64,27 @@
                 </svg>
             </div>
             <h1 class="text-6xl font-black text-white italic tracking-tighter mb-2">R7</h1>
-            <p class="text-slate-400 mb-10 font-medium">Asistente de IA Multimodal</p>
+            <p class="text-slate-400 mb-10 font-medium">Asistente Inteligente de Alta Precisión</p>
 
             <div class="space-y-4">
                 <button onclick="setMode('admin')" class="w-full p-5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-3xl flex items-center gap-4 transition-all group text-left">
                     <div class="p-3 bg-indigo-500/10 rounded-2xl text-indigo-400"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
-                    <div><h3 class="text-white font-bold">Administrar Deudas</h3><p class="text-slate-400 text-xs">Análisis financiero y facturas.</p></div>
-                </button>
-                <button onclick="setMode('advice')" class="w-full p-5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-3xl flex items-center gap-4 transition-all group text-left">
-                    <div class="p-3 bg-emerald-500/10 rounded-2xl text-emerald-400"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg></div>
-                    <div><h3 class="text-white font-bold">Consejos</h3><p class="text-slate-400 text-xs">Tips estratégicos de ahorro.</p></div>
+                    <div><h3 class="text-white font-bold">Administrar Deudas</h3><p class="text-slate-400 text-xs">Organización financiera R7.</p></div>
                 </button>
                 <button onclick="setMode('tasks')" class="w-full p-6 bg-indigo-600 hover:bg-indigo-500 border border-indigo-400 rounded-3xl flex items-center gap-4 transition-all shadow-xl shadow-indigo-900/40 group text-left">
                     <div class="p-3 bg-white/10 rounded-2xl text-white"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg></div>
-                    <div><h3 class="text-white font-extrabold text-xl uppercase italic">Llenar Exámenes y Tareas</h3><p class="text-indigo-100 text-xs opacity-80">R7 resuelve y explica paso a paso.</p></div>
+                    <div><h3 class="text-white font-extrabold text-xl uppercase italic">Llenar Exámenes y Tareas</h3><p class="text-indigo-100 text-xs opacity-80">R7 resuelve paso a paso.</p></div>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Interfaz de Chat Principal -->
-    <div class="flex flex-col w-full max-w-2xl h-screen bg-white shadow-2xl border-x border-slate-200">
+    <!-- Contenedor Principal -->
+    <div class="flex flex-col w-full max-w-2xl h-screen bg-white shadow-2xl border-x border-slate-200 relative">
         
-        <!-- Navbar -->
-        <header class="p-4 border-b flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-10">
-            <button onclick="backHome()" class="p-2 text-slate-400 hover:bg-slate-100 rounded-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
+        <!-- Header -->
+        <header class="p-4 border-b flex items-center justify-between bg-white sticky top-0 z-10">
+            <button onclick="backHome()" class="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
             <div class="text-center">
                 <span class="text-2xl font-black italic tracking-tighter block leading-none">R7</span>
                 <span id="mode-indicator" class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest"></span>
@@ -62,26 +94,25 @@
             </div>
         </header>
 
-        <!-- Mensajes -->
-        <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-6 bg-slate-50/50 custom-scrollbar">
-            <!-- Bienvenida Dinámica -->
-            <div id="welcome-message" class="text-center py-20 space-y-4">
+        <!-- Chat -->
+        <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/30 custom-scrollbar flex flex-col">
+            <div id="welcome-message" class="my-auto text-center space-y-4 py-10">
                 <div class="w-20 h-20 bg-white rounded-[2rem] shadow-xl mx-auto flex items-center justify-center text-indigo-600 border border-slate-100 mb-4">
                     <svg id="welcome-icon" class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg>
                 </div>
-                <h2 class="text-xl font-bold text-slate-800 italic">Hola, soy R7</h2>
-                <p id="welcome-text" class="text-slate-500 text-sm max-w-xs mx-auto leading-relaxed"></p>
+                <h2 class="text-2xl font-bold text-slate-800 italic">Hola, soy R7</h2>
+                <p id="welcome-text" class="text-slate-500 text-sm max-w-xs mx-auto leading-relaxed font-medium"></p>
             </div>
         </div>
 
-        <!-- Input -->
-        <div class="p-4 bg-white border-t space-y-4 shadow-[0_-4px_10px_rgba(0,0,0,0.03)]">
+        <!-- Área de Entrada -->
+        <div class="p-4 bg-white border-t space-y-4">
             <div id="image-preview-container" class="hidden flex items-center gap-3 p-3 bg-indigo-50 rounded-2xl border border-indigo-100">
                 <div class="relative h-16 w-16">
-                    <img id="image-preview" src="" class="h-full w-full object-cover rounded-xl border border-white" />
+                    <img id="image-preview" src="" class="h-full w-full object-cover rounded-xl border border-white shadow-sm" />
                     <button onclick="clearImage()" class="absolute -top-2 -right-2 bg-slate-900 text-white rounded-full p-1 shadow-md"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
                 </div>
-                <div class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Foto lista para análisis de R7</div>
+                <div class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Documento listo para R7</div>
             </div>
 
             <div class="flex items-center gap-3">
@@ -90,37 +121,30 @@
                 </button>
                 <input type="file" id="file-input" hidden accept="image/*" onchange="handleFile(event)">
                 <input type="text" id="user-input" onkeypress="if(event.key==='Enter') sendMessage()" placeholder="Escribe a R7..." class="flex-1 bg-slate-100 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl px-5 py-4 text-sm outline-none transition-all font-medium text-slate-800">
-                <button onclick="sendMessage()" class="p-4 bg-slate-900 text-white rounded-2xl hover:bg-black transition-all shadow-xl">
+                <button onclick="sendMessage()" id="send-btn" class="p-4 bg-slate-900 text-white rounded-2xl hover:bg-black transition-all shadow-xl">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
                 </button>
             </div>
-            <p class="text-center text-[9px] text-slate-400 font-bold uppercase tracking-widest opacity-60">R7 Intelligence System • v3.0 HTML</p>
         </div>
     </div>
 
     <script>
-        const apiKey = ""; // La API key se inyecta automáticamente
+        const apiKey = ""; // Se proporciona automáticamente en ejecución
         let currentMode = null;
         let base64Image = null;
 
         const MODES = {
             admin: {
-                label: 'Administración',
+                label: 'Gestión Financiera',
                 icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />',
-                welcome: 'Sube fotos de tus deudas o facturas para que R7 organice tu plan de pagos paso a paso.',
-                system: 'Eres R7, experto financiero. Genera respuestas organizadas con títulos y pasos numerados. No amontones el texto.'
-            },
-            advice: {
-                label: 'Consejos',
-                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />',
-                welcome: 'Pregúntame cualquier duda sobre cómo mejorar tus finanzas o ahorrar más dinero.',
-                system: 'Eres R7, consejero financiero. Tu formato debe ser: 1. Diagnóstico, 2. Recomendación, 3. Plan de Acción.'
+                welcome: 'Sube fotos de tus deudas para que R7 cree un plan de pagos organizado.',
+                system: 'Eres R7, el experto financiero. RESPUESTAS: Primero da un resumen claro. Usa bloques separados para cada paso de pago. Nunca amontones el texto. Usa lenguaje profesional y directo.'
             },
             tasks: {
                 label: 'Tareas y Exámenes',
                 icon: '<path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />',
-                welcome: 'Sube foto de tu examen o escribe el enunciado de tu tarea. Resolveré y explicaré paso a paso.',
-                system: 'Eres R7, asistente académico. Para TAREAS Y EXÁMENES: Da el RESULTADO FINAL en negrita, luego el PROCEDIMIENTO PASO A PASO con explicaciones claras separadas por bloques. Divide la información muy bien para que no esté amontonada.'
+                welcome: 'Sube una foto de tu examen. R7 resolverá cada punto con explicaciones detalladas.',
+                system: 'Eres R7, asistente académico. PARA EXÁMENES: 1. Resultado final destacado. 2. Procedimiento paso a paso dividido en bloques independientes. No escribas párrafos largos, usa listas y bloques claros.'
             }
         };
 
@@ -130,8 +154,6 @@
             document.getElementById('mode-indicator').innerText = MODES[mode].label;
             document.getElementById('welcome-icon').innerHTML = MODES[mode].icon;
             document.getElementById('welcome-text').innerText = MODES[mode].welcome;
-            document.getElementById('chat-container').innerHTML = ''; // Limpiar chat al cambiar
-            document.getElementById('user-input').placeholder = mode === 'tasks' ? 'Sube foto del examen o escribe...' : 'Escribe a R7...';
         }
 
         function backHome() {
@@ -153,29 +175,52 @@
         function clearImage() {
             base64Image = null;
             document.getElementById('image-preview-container').classList.add('hidden');
+            document.getElementById('file-input').value = "";
         }
 
         function formatResponse(text) {
-            // Dividir por líneas y detectar estructuras para dar formato aireado
             const lines = text.split('\n');
-            return lines.map(line => {
+            let html = '<div class="space-y-4">';
+            let inList = false;
+
+            lines.forEach(line => {
                 const trimmed = line.trim();
-                if (!trimmed) return '<div class="h-3"></div>';
-                
-                // Detectar Títulos
-                if (trimmed.startsWith('#') || trimmed.includes('**')) {
-                    const cleanTitle = trimmed.replace(/[#*]/g, '');
-                    return `<div class="response-title">${cleanTitle}</div>`;
-                }
+                if (!trimmed) return;
 
-                // Detectar Pasos Numerados o Listas
-                if (/^\d+\./.test(trimmed) || trimmed.startsWith('-') || trimmed.startsWith('*')) {
-                    return `<div class="response-step">${trimmed}</div>`;
+                // Resultado final destacado
+                if (trimmed.toLowerCase().includes('resultado final') || trimmed.startsWith('**')) {
+                    html += `<div class="result-highlight">${trimmed.replace(/\*\*/g, '')}</div>`;
                 }
+                // Títulos de sección
+                else if (trimmed.startsWith('#') || (trimmed.length < 50 && trimmed.endsWith(':'))) {
+                    html += `<div class="response-header">${trimmed.replace(/#/g, '')}</div>`;
+                }
+                // Pasos numerados o items
+                else if (/^\d+\./.test(trimmed) || trimmed.startsWith('-') || trimmed.startsWith('*')) {
+                    html += `<div class="response-step">${trimmed.replace(/[-*]/g, '')}</div>`;
+                }
+                // Texto normal
+                else {
+                    html += `<p class="leading-relaxed text-slate-700">${trimmed}</p>`;
+                }
+            });
 
-                // Texto normal con interlineado generoso
-                return `<p class="leading-relaxed mb-2 text-slate-700">${trimmed}</p>`;
-            }).join('');
+            html += '</div>';
+            return html;
+        }
+
+        async function fetchWithRetry(url, options, retries = 5, backoff = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) return await response.json();
+                    if (response.status === 429) throw new Error('Rate limit');
+                } catch (err) {
+                    if (i === retries - 1) throw err;
+                    await new Promise(resolve => setTimeout(resolve, backoff));
+                    backoff *= 2;
+                }
+            }
         }
 
         async function sendMessage() {
@@ -186,43 +231,43 @@
 
             if (!text && !currentImg) return;
 
-            // Ocultar mensaje de bienvenida
             const welcome = document.getElementById('welcome-message');
-            if (welcome) welcome.remove();
+            if (welcome) welcome.style.display = 'none';
 
-            // Añadir mensaje de usuario
-            const userMsgHtml = `
-                <div class="flex justify-end animate-in fade-in slide-in-from-bottom-2">
-                    <div class="max-w-[85%] space-y-2">
-                        ${currentImg ? `<img src="${currentImg}" class="rounded-2xl w-full border-4 border-white shadow-lg mb-1" />` : ''}
-                        <div class="bg-indigo-600 text-white p-4 rounded-[2rem] rounded-tr-none text-sm shadow-sm">${text}</div>
-                    </div>
+            // Mensaje usuario
+            const userMsg = document.createElement('div');
+            userMsg.className = 'flex justify-end animate-in fade-in slide-in-from-bottom-2 mb-4';
+            userMsg.innerHTML = `
+                <div class="max-w-[85%] space-y-2">
+                    ${currentImg ? `<img src="${currentImg}" class="rounded-2xl w-full border-4 border-white shadow-lg" />` : ''}
+                    <div class="bg-indigo-600 text-white p-4 rounded-[1.5rem] rounded-tr-none text-sm font-medium">${text}</div>
                 </div>
             `;
-            container.innerHTML += userMsgHtml;
+            container.appendChild(userMsg);
             input.value = '';
             clearImage();
             container.scrollTop = container.scrollHeight;
 
-            // Mostrar Loading
+            // Loading
             const loadingId = 'loading-' + Date.now();
-            container.innerHTML += `
-                <div id="${loadingId}" class="flex justify-start">
-                    <div class="bg-white border border-slate-200 p-4 rounded-[2rem] rounded-tl-none flex items-center gap-3 shadow-sm">
-                        <div class="flex gap-1">
-                            <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot"></span>
-                            <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot" style="animation-delay: 0.2s"></span>
-                            <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot" style="animation-delay: 0.4s"></span>
-                        </div>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">R7 ANALIZANDO</span>
+            const loadingMsg = document.createElement('div');
+            loadingMsg.id = loadingId;
+            loadingMsg.className = 'flex justify-start mb-4';
+            loadingMsg.innerHTML = `
+                <div class="bg-white border border-slate-200 p-4 rounded-[1.5rem] rounded-tl-none flex items-center gap-3 shadow-sm">
+                    <div class="flex gap-1">
+                        <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot"></span>
+                        <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot" style="animation-delay: 0.2s"></span>
+                        <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot" style="animation-delay: 0.4s"></span>
                     </div>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">R7 analizando...</span>
                 </div>
             `;
+            container.appendChild(loadingMsg);
             container.scrollTop = container.scrollHeight;
 
-            // Llamada a API
             try {
-                const parts = [{ text: text || "Analiza esta imagen detalladamente." }];
+                const parts = [{ text: text || "Resuelve esta tarea paso a paso." }];
                 if (currentImg) {
                     parts.push({
                         inlineData: {
@@ -232,7 +277,7 @@
                     });
                 }
 
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                const result = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -241,24 +286,28 @@
                     })
                 });
 
-                const data = await response.json();
-                const aiText = data.candidates[0].content.parts[0].text;
-
+                const aiText = result.candidates[0].content.parts[0].text;
                 document.getElementById(loadingId).remove();
 
-                const aiMsgHtml = `
-                    <div class="flex justify-start animate-in fade-in slide-in-from-bottom-2">
-                        <div class="max-w-[90%] bg-white border border-slate-200 p-5 rounded-[2rem] rounded-tl-none text-sm shadow-sm">
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'flex justify-start animate-in fade-in slide-in-from-bottom-2 mb-4';
+                aiMsg.innerHTML = `
+                    <div class="max-w-[95%] w-full">
+                        <div class="response-card">
                             ${formatResponse(aiText)}
                         </div>
                     </div>
                 `;
-                container.innerHTML += aiMsgHtml;
+                container.appendChild(aiMsg);
                 container.scrollTop = container.scrollHeight;
 
             } catch (error) {
-                document.getElementById(loadingId).remove();
-                container.innerHTML += `<div class="text-center text-xs text-red-500">Error: No se pudo conectar con R7.</div>`;
+                if (document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'text-center text-[10px] font-bold text-red-500 bg-red-50 p-2 rounded-xl mb-4 uppercase tracking-widest';
+                errorMsg.innerText = "Error de conexión con R7. Reintentando automáticamente...";
+                container.appendChild(errorMsg);
+                console.error(error);
             }
         }
     </script>
