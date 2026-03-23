@@ -2,256 +2,243 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>R7 - Inteligencia Artificial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Cierre de Turno</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: white; -webkit-tap-highlight-color: transparent; }
-        
-        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        .ai-card {
-            background: white;
-            color: #1e293b;
-            border-radius: 1.5rem;
-            padding: 1.25rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1rem;
-            animation: slideUp 0.3s ease-out;
-        }
-
-        .result-box {
-            background: #4f46e5;
-            color: white;
-            padding: 1rem;
-            border-radius: 1rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .step-box {
-            border-left: 3px solid #4f46e5;
-            padding-left: 1rem;
-            margin: 1rem 0;
-            color: #475569;
-            font-size: 0.95rem;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .typing-dot { animation: typing 1.4s infinite; }
-        @keyframes typing { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-        /* Ocultar scrollbar */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .report-font { font-family: 'Roboto Mono', monospace; }
+        @media print { .no-print { display: none; } }
     </style>
 </head>
-<body class="h-screen overflow-hidden flex flex-col">
+<body class="bg-slate-50 min-h-screen pb-20">
 
-    <!-- Pantalla de Selección Principal -->
-    <div id="home-screen" class="fixed inset-0 z-50 bg-[#0f172a] flex flex-col items-center justify-center p-8 transition-all duration-500">
-        <div class="w-20 h-20 bg-indigo-600 rounded-[2rem] shadow-2xl shadow-indigo-500/20 flex items-center justify-center mb-8">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-        </div>
-        <h1 class="text-5xl font-black italic tracking-tighter mb-2">R7</h1>
-        <p class="text-slate-400 font-medium mb-12 text-center">IA Especializada en Exámenes y Finanzas</p>
+    <!-- Header / Editor (No se imprime en la imagen) -->
+    <div class="no-print max-w-4xl mx-auto p-4 md:p-6 space-y-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h1 class="text-2xl font-800 text-slate-800 mb-6 flex items-center gap-2">
+                <span class="bg-blue-600 w-2 h-8 rounded-full"></span>
+                Panel de Control del Informe
+            </h1>
 
-        <div class="w-full max-w-sm space-y-4">
-            <button onclick="startMode('tasks')" class="w-full p-6 bg-indigo-600 rounded-3xl flex items-center justify-between group active:scale-95 transition-all shadow-xl shadow-indigo-900/40">
-                <div class="text-left">
-                    <span class="block text-[10px] font-bold text-indigo-200 uppercase tracking-widest mb-1">Modo Académico</span>
-                    <span class="text-xl font-extrabold italic uppercase">TAREAS Y EXÁMENES</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Fecha -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Fecha</label>
+                    <input type="date" id="input-fecha" class="w-full bg-slate-50 border-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
                 </div>
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-            </button>
 
-            <button onclick="startMode('admin')" class="w-full p-5 glass-panel rounded-3xl flex items-center justify-between opacity-60">
-                <span class="font-bold">Administrar Deudas</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            </button>
+                <!-- Selección de Tanda -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tanda / Turno</label>
+                    <select id="input-tanda" class="w-full bg-slate-50 border-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                        <optgroup label="Tanda A">
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="A3">A3</option>
+                        </optgroup>
+                        <optgroup label="Tanda B">
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                            <option value="B3">B3</option>
+                        </optgroup>
+                        <optgroup label="Tanda C">
+                            <option value="C1" selected>C1</option>
+                            <option value="C2">C2</option>
+                            <option value="C3">C3</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- Inspector -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Inspector de Calidad</label>
+                    <input type="text" id="input-inspector" placeholder="Nombre completo" class="w-full bg-slate-50 border-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+            </div>
+
+            <hr class="my-6 border-slate-100">
+
+            <!-- Líneas de Producción -->
+            <div class="space-y-6">
+                <!-- PAVAN 2400 y 1700 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-blue-50/50 rounded-xl border border-blue-100">
+                        <label class="block text-sm font-bold text-blue-800 mb-2">PAVAN 2400</label>
+                        <select id="prod-2400" onchange="toggleCustom('2400')" class="w-full mb-2 p-2 rounded border">
+                            <option value="ESPAGUETI">ESPAGUETI</option>
+                            <option value="LINGUINI">LINGUINI</option>
+                            <option value="OTRO">OTRO (Escribir abajo)</option>
+                        </select>
+                        <input type="text" id="custom-2400" placeholder="Especifique otro producto" class="hidden w-full mb-2 p-2 rounded border text-sm">
+                        <textarea id="desc-2400" placeholder="Descripción de la línea..." class="w-full p-2 text-sm rounded border h-20"></textarea>
+                    </div>
+
+                    <div class="p-4 bg-blue-50/50 rounded-xl border border-blue-100">
+                        <label class="block text-sm font-bold text-blue-800 mb-2">PAVAN 1700</label>
+                        <select id="prod-1700" onchange="toggleCustom('1700')" class="w-full mb-2 p-2 rounded border">
+                            <option value="ESPAGUETI">ESPAGUETI</option>
+                            <option value="LINGUINI">LINGUINI</option>
+                            <option value="OTRO">OTRO (Escribir abajo)</option>
+                        </select>
+                        <input type="text" id="custom-1700" placeholder="Especifique otro producto" class="hidden w-full mb-2 p-2 rounded border text-sm">
+                        <textarea id="desc-1700" placeholder="Descripción de la línea..." class="w-full p-2 text-sm rounded border h-20"></textarea>
+                    </div>
+                </div>
+
+                <!-- Líneas con opción Descargada -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">PAVAN 1000</label>
+                        <button onclick="setDescargada('1000')" class="w-full py-1 px-2 text-xs bg-slate-200 hover:bg-slate-300 rounded mb-2 transition">Marcar: Línea Descargada</button>
+                        <textarea id="desc-1000" class="w-full p-2 text-xs rounded border h-16"></textarea>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">FIDEO NUEVA</label>
+                        <button onclick="setDescargada('nueva')" class="w-full py-1 px-2 text-xs bg-slate-200 hover:bg-slate-300 rounded mb-2 transition">Marcar: Línea Descargada</button>
+                        <textarea id="desc-nueva" class="w-full p-2 text-xs rounded border h-16"></textarea>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">FIDEO MADRIGAL</label>
+                        <button onclick="setDescargada('madrigal')" class="w-full py-1 px-2 text-xs bg-slate-200 hover:bg-slate-300 rounded mb-2 transition">Marcar: Línea Descargada</button>
+                        <textarea id="desc-madrigal" class="w-full p-2 text-xs rounded border h-16"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex gap-4">
+                <button onclick="generateReport()" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                    Actualizar Reporte
+                </button>
+                <button onclick="downloadReport()" class="flex-1 bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition shadow-lg shadow-green-200 flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Descargar como Imagen
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Interfaz de Chat Estilo iPhone -->
-    <div class="flex-1 flex flex-col w-full max-w-2xl mx-auto bg-[#0f172a] relative">
-        
-        <!-- Header -->
-        <header class="px-6 py-4 flex items-center justify-between border-b border-white/5 bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-20">
-            <button onclick="exitApp()" class="p-2 -ml-2 text-slate-400"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
-            <div class="text-center">
-                <h2 class="text-xl font-black italic tracking-tighter leading-none">R7</h2>
-                <span id="header-subtitle" class="text-[9px] font-bold text-indigo-400 uppercase tracking-widest"></span>
-            </div>
-            <div class="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
-                <span class="text-xs font-bold text-indigo-400">R7</span>
-            </div>
-        </header>
-
-        <!-- Mensajes -->
-        <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
-            <!-- Espacio para mensajes -->
+    <!-- DOCUMENTO FINAL (Lo que se captura) -->
+    <div id="capture-area" class="bg-white mx-auto p-10 max-w-[700px] border border-slate-300 report-font text-slate-900 leading-relaxed">
+        <div class="text-center mb-8 border-b-2 border-slate-900 pb-4">
+            <h2 class="text-2xl font-bold">INFORME DE CIERRE DE TURNO</h2>
         </div>
 
-        <!-- Barra Inferior -->
-        <div class="p-4 bg-[#0f172a] border-t border-white/5">
-            <div id="img-preview-box" class="hidden mb-3 p-2 glass-panel rounded-2xl flex items-center gap-3">
-                <div class="relative h-14 w-14">
-                    <img id="img-preview" class="h-full w-full object-cover rounded-xl" src="">
-                    <button onclick="removeImg()" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
-                </div>
-                <div class="text-[10px] font-bold text-indigo-400 uppercase">Analizando Imagen...</div>
+        <div class="space-y-2 text-lg mb-8">
+            <p><span class="font-bold">FECHA:</span> <span id="out-fecha">--/--/----</span></p>
+            <p><span class="font-bold">TANDA:</span> <span id="out-tanda">--</span></p>
+            <p><span class="font-bold">INSPECTOR DE CALIDAD:</span> <span id="out-inspector" class="uppercase">--</span></p>
+        </div>
+
+        <div class="border-t border-slate-900 pt-6 space-y-8">
+            <!-- Bloque Línea -->
+            <div>
+                <p class="font-bold text-lg mb-1">PAVAN 2400 [<span id="out-prod-2400"></span>]</p>
+                <p id="out-desc-2400" class="whitespace-pre-wrap pl-4 border-l-2 border-slate-200 italic"></p>
             </div>
 
-            <div class="flex items-center gap-3">
-                <button onclick="document.getElementById('file').click()" class="p-4 glass-panel rounded-2xl text-slate-400 active:bg-indigo-600 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /></svg>
-                </button>
-                <input type="file" id="file" hidden accept="image/*" onchange="processFile(event)">
-                
-                <input type="text" id="input" placeholder="Escribe a R7..." onkeypress="if(event.key==='Enter') send()" class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm outline-none focus:border-indigo-500 transition-all">
-                
-                <button onclick="send()" class="p-4 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-600/20 active:scale-90 transition-transform">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-                </button>
+            <div>
+                <p class="font-bold text-lg mb-1">PAVAN 1700 [<span id="out-prod-1700"></span>]</p>
+                <p id="out-desc-1700" class="whitespace-pre-wrap pl-4 border-l-2 border-slate-200 italic"></p>
             </div>
+
+            <div class="grid grid-cols-1 gap-6">
+                <div>
+                    <p class="font-bold text-lg mb-1">PAVAN 1000 [N/A]</p>
+                    <p id="out-desc-1000" class="whitespace-pre-wrap pl-4 border-l-2 border-slate-200"></p>
+                </div>
+                <div>
+                    <p class="font-bold text-lg mb-1">FIDEO NUEVA [N/A]</p>
+                    <p id="out-desc-nueva" class="whitespace-pre-wrap pl-4 border-l-2 border-slate-200"></p>
+                </div>
+                <div>
+                    <p class="font-bold text-lg mb-1">FIDEO MADRIGAL [N/A]</p>
+                    <p id="out-desc-madrigal" class="whitespace-pre-wrap pl-4 border-l-2 border-slate-200"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-20 flex justify-between">
+            <div class="w-48 border-t border-slate-900 text-center pt-2 text-xs font-bold">FIRMA INSPECTOR</div>
+            <div class="w-48 border-t border-slate-900 text-center pt-2 text-xs font-bold">RECIBIDO SUPERVISOR</div>
+        </div>
+        
+        <div class="mt-8 text-[10px] text-slate-400 text-right uppercase">
+            Sistema de Reportes - Generado el <span id="current-gen-time"></span>
         </div>
     </div>
 
     <script>
-        const apiKey = ""; // La API de Gemini se activa internamente
-        let activeMode = 'tasks';
-        let currentBase64 = null;
+        // Establecer fecha de hoy al iniciar
+        window.onload = () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('input-fecha').value = today;
+            generateReport();
+        };
 
-        function startMode(m) {
-            activeMode = m;
-            document.getElementById('home-screen').style.transform = 'translateY(-100%)';
-            document.getElementById('header-subtitle').innerText = m === 'tasks' ? 'Tareas y Exámenes' : 'Administración';
-        }
-
-        function exitApp() {
-            document.getElementById('home-screen').style.transform = 'translateY(0)';
-        }
-
-        function processFile(e) {
-            const file = e.target.files[0];
-            if(!file) return;
-            const reader = new FileReader();
-            reader.onload = (f) => {
-                currentBase64 = f.target.result;
-                document.getElementById('img-preview').src = currentBase64;
-                document.getElementById('img-preview-box').classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function removeImg() {
-            currentBase64 = null;
-            document.getElementById('img-preview-box').classList.add('hidden');
-            document.getElementById('file').value = "";
-        }
-
-        function formatAI(text) {
-            const lines = text.split('\n');
-            let resultHtml = '';
-            lines.forEach(line => {
-                const l = line.trim();
-                if(!l) return;
-                
-                // Formatear resultados finales destacados
-                if(l.toLowerCase().includes('resultado') || l.startsWith('**')) {
-                    resultHtml += `<div class="result-box">${l.replace(/\*\*/g, '')}</div>`;
-                } 
-                // Formatear pasos
-                else if(/^\d+\./.test(l) || l.startsWith('-')) {
-                    resultHtml += `<div class="step-box">${l}</div>`;
-                }
-                // Texto plano
-                else {
-                    resultHtml += `<p class="mb-2 text-sm leading-relaxed">${l}</p>`;
-                }
-            });
-            return resultHtml;
-        }
-
-        async function send() {
-            const input = document.getElementById('input');
-            const chat = document.getElementById('chat-container');
-            const val = input.value.trim();
-            const img = currentBase64;
-
-            if(!val && !img) return;
-
-            // Mostrar mensaje usuario
-            const uDiv = document.createElement('div');
-            uDiv.className = 'flex flex-col items-end gap-2 mb-6';
-            uDiv.innerHTML = `
-                ${img ? `<img src="${img}" class="w-48 h-48 object-cover rounded-2xl border-2 border-white/10">` : ''}
-                <div class="bg-indigo-600 px-5 py-3 rounded-2xl rounded-tr-none text-sm font-semibold max-w-[85%]">${val}</div>
-            `;
-            chat.appendChild(uDiv);
-            
-            input.value = '';
-            removeImg();
-            chat.scrollTop = chat.scrollHeight;
-
-            // Loading
-            const loadingId = 'L' + Date.now();
-            const lDiv = document.createElement('div');
-            lDiv.id = loadingId;
-            lDiv.className = 'flex gap-2 items-center text-slate-500 mb-6';
-            lDiv.innerHTML = `
-                <div class="bg-white/5 p-4 rounded-2xl rounded-tl-none flex gap-2">
-                    <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot"></span>
-                    <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot" style="animation-delay:0.2s"></span>
-                    <span class="w-2 h-2 bg-indigo-500 rounded-full typing-dot" style="animation-delay:0.4s"></span>
-                </div>
-            `;
-            chat.appendChild(lDiv);
-            chat.scrollTop = chat.scrollHeight;
-
-            try {
-                const parts = [{ text: val || "Resuelve este ejercicio de forma detallada." }];
-                if(img) parts.push({ inlineData: { mimeType: "image/png", data: img.split(',')[1] } });
-
-                const systemPrompt = activeMode === 'tasks' 
-                    ? "Eres R7, especialista en exámenes. Tu prioridad es dar el RESULTADO FINAL primero en un bloque destacado. Luego, explica el PROCEDIMIENTO paso a paso usando bloques separados. Sé directo, no uses párrafos largos."
-                    : "Eres R7, asesor financiero. Organiza las deudas y da un plan de acción por pasos.";
-
-                // Reintento exponencial para evitar errores de conexión
-                const fetchWithRetry = async (url, opts, n = 3) => {
-                    try { return await fetch(url, opts); }
-                    catch(err) { if (n <= 1) throw err; return await fetchWithRetry(url, opts, n - 1); }
-                };
-
-                const res = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
-
-                const data = await res.json();
-                const aiResponse = data.candidates[0].content.parts[0].text;
-                
-                document.getElementById(loadingId).remove();
-
-                const aiDiv = document.createElement('div');
-                aiDiv.className = 'ai-card mb-6';
-                aiDiv.innerHTML = formatAI(aiResponse);
-                chat.appendChild(aiDiv);
-                chat.scrollTop = chat.scrollHeight;
-
-            } catch (e) {
-                document.getElementById(loadingId).innerHTML = `<div class="bg-red-500/10 text-red-500 p-4 rounded-2xl text-xs font-bold w-full text-center">R7: Error de enlace. Intenta enviar de nuevo.</div>`;
+        function toggleCustom(id) {
+            const val = document.getElementById('prod-' + id).value;
+            const customInput = document.getElementById('custom-' + id);
+            if (val === 'OTRO') {
+                customInput.classList.remove('hidden');
+            } else {
+                customInput.classList.add('hidden');
             }
+        }
+
+        function setDescargada(id) {
+            document.getElementById('desc-' + id).value = "La línea descargada.";
+        }
+
+        function generateReport() {
+            // Fecha y Tanda
+            const fechaVal = document.getElementById('input-fecha').value;
+            const [y, m, d] = fechaVal.split('-');
+            document.getElementById('out-fecha').innerText = `${d}/${m}/${y}`;
+            document.getElementById('out-tanda').innerText = document.getElementById('input-tanda').value;
+            document.getElementById('out-inspector').innerText = document.getElementById('input-inspector').value || "NO ESPECIFICADO";
+
+            // PAVAN 2400
+            const p2400Sel = document.getElementById('prod-2400').value;
+            document.getElementById('out-prod-2400').innerText = p2400Sel === 'OTRO' ? document.getElementById('custom-2400').value : p2400Sel;
+            document.getElementById('out-desc-2400').innerText = document.getElementById('desc-2400').value || "Sin observaciones.";
+
+            // PAVAN 1700
+            const p1700Sel = document.getElementById('prod-1700').value;
+            document.getElementById('out-prod-1700').innerText = p1700Sel === 'OTRO' ? document.getElementById('custom-1700').value : p1700Sel;
+            document.getElementById('out-desc-1700').innerText = document.getElementById('desc-1700').value || "Sin observaciones.";
+
+            // Resto de líneas
+            document.getElementById('out-desc-1000').innerText = document.getElementById('desc-1000').value || "Operando normal.";
+            document.getElementById('out-desc-nueva').innerText = document.getElementById('desc-nueva').value || "Operando normal.";
+            document.getElementById('out-desc-madrigal').innerText = document.getElementById('desc-madrigal').value || "Operando normal.";
+
+            document.getElementById('current-gen-time').innerText = new Date().toLocaleString();
+        }
+
+        async function downloadReport() {
+            generateReport();
+            const element = document.getElementById('capture-area');
+            
+            // Esperar un momento para asegurar que el DOM esté listo
+            setTimeout(async () => {
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    backgroundColor: "#ffffff",
+                    useCORS: true
+                });
+                
+                const dataURL = canvas.toDataURL("image/png");
+                const link = document.createElement("a");
+                const t = document.getElementById('input-tanda').value;
+                const f = document.getElementById('input-fecha').value;
+                
+                link.download = `Reporte_${t}_${f}.png`;
+                link.href = dataURL;
+                link.click();
+            }, 100);
         }
     </script>
 </body>
